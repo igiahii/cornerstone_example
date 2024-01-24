@@ -1,0 +1,46 @@
+﻿.dicom-image {
+    height: 100%;
+    width: calc(100% - 350px);
+    background-color: #1d2a35;
+    overflow : hidden;
+    position : relative ;
+    display : flex; 
+    justify-content : center ;
+    align-items : center;
+}
+.toolbar-button-group {
+    position : absolute ;
+    top : 20px ;
+    display : flex ;
+    flex-wrap : nowrap;
+    justify-content : center ;
+    height : 50px ;
+    left : 0 ;
+    right : 0 ;
+}
+
+.tumbnail{
+    position : fixed;
+    width : 350px ;
+    right : 0 ;
+    top : 0 ;
+    bottom : 0 ;
+    background-color : dimgray;
+    display : flex ;
+    flex-direction : column;
+    align-items : center;
+    justify-content : space-around ;
+    overflow-y : scroll;
+}
+.mini-image {
+    border: 1px solid #ddd; /* Gray border */
+    border-radius: 4px; /* Rounded border */
+    padding: 5px; /* Some padding */
+    width: 300px; /* Set a small width */
+    height : auto;
+    cursor : pointer ;
+    margin : 25px 0 ;
+}
+.mini-image:hover {
+    box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
