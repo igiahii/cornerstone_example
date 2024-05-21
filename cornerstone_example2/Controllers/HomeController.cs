@@ -17,5 +17,10 @@ namespace cornerstone_example2.Controllers
         {
             return View();
         }
+        public ActionResult Dicom()
+        {
+            string v =  System.Environment.Version.ToString();
+            return View();
+        }
     }
 }

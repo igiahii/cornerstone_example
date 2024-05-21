@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Css\bootstrap.css" />
+    <Content Include="Content\Css\Dicom.css" />
     <Content Include="Content\Css\Tumbnail.css" />
     <Content Include="Content\Img\Jpg\1.jpg" />
     <Content Include="Content\Img\Jpg\2.jpg" />
@@ -102,6 +103,7 @@
     <Content Include="Scripts\cornerstone-tools.js" />
     <Content Include="Scripts\dicom-parser.js" />
     <Content Include="Scripts\image-loader.min.js" />
+    <Content Include="Scripts\initializeWebWorkers.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
     <Content Include="Scripts\web-image-loader.js" />
     <Content Include="Web.config" />
@@ -117,10 +119,14 @@
   <ItemGroup>
     <Content Include="Views\web.config" />
     <Content Include="package.json" />
-    <Content Include="Content\Img\sample_dcm.dcm" />
+    <Content Include="Content\Img\dicom\sample_dcm.dcm" />
+    <Content Include="Content\Img\dicom\sample1.DCM" />
+    <Content Include="Content\Img\scan-me.zip" />
     <None Include="packages.config" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Tumbnail.cshtml" />
+    <Content Include="Views\Home\Dicom.cshtml" />
+    <Content Include="Scripts\cornerstone-wado-image-loader%404.13.2.js" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
