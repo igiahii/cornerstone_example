@@ -5,14 +5,50 @@
     background-color: #1d2a35;
 }
 .dicom-container {
-    width : 85% ;
-    height : 100% ;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    position: absolute;
+    top: 60px;
+    left: 180px;
+    width: calc(100% - 180px);
+    height: calc(100% - 140px);
+    border: 1px solid rgb(255, 216, 0);
+}
+.top-left-details {
     display : flex ;
-    align-items : center ;
-    justify-content : center ;
+    flex-direction : column ;
+    align-items : flex-start ;
+    position : absolute ;
+    top : 15px ;
+    left : 15px ;
+}
+.bottom-left-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+}
+.top-right-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+.bottom-right-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
 }
 .dicom-tumbnail {
-    width : 15% ;
+    width : 180px ;
     min-height : 100% ;
     background-color : #000
 }

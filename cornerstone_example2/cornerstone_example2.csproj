@@ -101,6 +101,7 @@
     <Content Include="Scripts\cornerstone-math.js" />
     <Content Include="Scripts\cornerstone-prev.js" />
     <Content Include="Scripts\cornerstone-tools.js" />
+    <Content Include="Scripts\cornerstone-uids.js" />
     <Content Include="Scripts\dicom-parser.js" />
     <Content Include="Scripts\image-loader.min.js" />
     <Content Include="Scripts\initializeWebWorkers.js" />

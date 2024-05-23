@@ -1,5 +1,5 @@
 ﻿@using System.IO
-@{ 
+@{
     string file = File.ReadAllText(Server.MapPath("~/Content/Img/dicom/sample_dcm.dcm"));
 
 }
@@ -21,17 +21,77 @@
     <script src="~/Scripts/dicom-parser.js"></script>
     <script src="~/Scripts/cornerstone-wado-image-loader@4.13.2.js"></script>
     <script src="~/Scripts/initializeWebWorkers.js"></script>
+    <script src="~/Scripts/cornerstone-uids.js"></script>
 </head>
 <body>
     <div class="dicom">
-        <div class="dicom-container">
-            <div style="width:512px;height:512px;position:relative;color: white;display:inline-block;border-style:solid;border-color:black;" oncontextmenu="return false" class="disable-selection noIbar" unselectable="on" onselectstart="return false;" onmousedown="return false;">
-                <div id="dicomImage" style="width:512px;height:512px;top:0px;left:0px; position:absolute"> </div>
+        <div class="dicom-tumbnail"></div>
+        <div class="dicom-container" data-path="@ViewBag.Path">
+            <div style="width:100%;height:100%;position:relative;color: white;display:inline-block;border-style:solid;border-color:black;" oncontextmenu="return false" class="disable-selection noIbar" unselectable="on" onselectstart="return false;" onmousedown="return false;">
+                <div id="dicomImage" style="width:100%;height:100%"> </div>
             </div>
-        </div>
-        <div class="dicom-tumbnail">
-            <button type="button" class="imgbtn">click</button>
-            <input class="w-100" id="selectFile" type="file"  />
+            <div class="top-left-details text-white">
+                <span class="h3 fw-bold" id="PatientName"></span>
+                <span>
+                    <span>ID: </span><span class="fw-bold" id="PatientID"></span>
+                </span>
+                <span>
+                    <span>Age: </span><span class="fw-bold" id="PatientAge"></span>
+                </span>
+                <!--<span>Image Type: </span><span id="ImageType"></span><br>
+        <span>Operator's Name: </span><span id="OperatorName"></span><br>
+        <span>Patient Gender: </span><span id="PatientSex"></span><br>
+        <span>Institution Name: </span><span id="InstitutionName"></span><br>-->
+                @*<span>Number Of Frames: </span><span id="numberOfFrames"></span><br>
+            <span>Planar Configuration: </span><span id="planarConfiguration"></span><br>
+            <span>Rows: </span><span id="rows"></span><br>
+            <span>Columns: </span><span id="columns"></span><br>
+            <span>Pixel Spacing: </span><span id="pixelSpacing"></span><br>
+            <span>Row Pixel Spacing: </span><span id="rowPixelSpacing"></span><br>
+            <span>Column Pixel Spacing: </span><span id="columnPixelSpacing"></span><br>
+            <span>Bits Allocated: </span><span id="bitsAllocated"></span><br>
+            <span>Bits Stored: </span><span id="bitsStored"></span><br>
+            <span>High Bit: </span><span id="highBit"></span><br>
+            <span>Pixel Representation: </span><span id="pixelRepresentation"></span><br>
+            <span>WindowCenter: </span><span id="windowCenter"></span><br>
+            <span>WindowWidth: </span><span id="windowWidth"></span><br>
+            <span>RescaleIntercept: </span><span id="rescaleIntercept"></span><br>
+            <span>RescaleSlope: </span><span id="rescaleSlope"></span><br>
+            <span>Basic Offset Table Entries: </span><span id="basicOffsetTable"></span><br>
+            <span>Fragments: </span><span id="fragments"></span><br>
+            <span>Max Stored Pixel Value: </span><span id="minStoredPixelValue"></span><br>
+            <span>Min Stored Pixel Value: </span><span id="maxStoredPixelValue"></span><br>*@
+                <!--<span>Total Time: </span><span id="totalTime"></span><br>
+        <span>Load Time: </span><span id="loadTime"></span><br>
+        <span>Decode Time: </span><span id="decodeTime"></span><br>-->
+            </div>
+            <div class="bottom-left-details text-white">
+                <span>
+                    <span>Thk: </span><span class="fw-bold" id="Thk"></span>
+                </span>
+                <span>
+                    <span>Size: </span><span class="fw-bold" id="rows"></span>,<span class="fw-bold" id="columns"></span>
+                </span>
+                <span>
+                    <span>Scale: </span><span class="fw-bold" id="Scale"></span>
+                </span>
+                <span>
+                    <span>W: </span><span class="fw-bold" id="WW"></span>&nbsp;&nbsp;<span>L: </span><span class="fw-bold" id="WL"></span>
+                </span>
+            </div>
+            <div class="top-right-details text-white">
+                <span>
+                    <span>Date: </span><span class="fw-bold" id="Date">2021/05/21</span>
+                </span>
+                <span>
+                    <span>Time: </span><span class="fw-bold" id="Time">09:54:52</span>
+                </span>
+            </div>
+            <div class="bottom-right-details text-white">
+                <span>
+                    <span id="InstitutionName"></span>
+                </span>
+            </div>
         </div>
     </div>
     <script>
@@ -70,17 +130,19 @@
         //        //xhr.setRequestHeader('x-auth-token', 'my auth token');
         //    },
         //});
-
+        let path = document.querySelector(".dicom-container").dataset.path
+        let baseUrl = document.querySelector(".dicom-container").dataset.baseurl
         let loaded = false;
         //let imageId = "wadouri:" + 'https://raw.githubusercontent.com/cornerstonejs/cornerstoneWADOImageLoader/master/testImages/' + 'CT2_J2KR'
-        let imageId ="wadouri:" + window.location.origin + "/Content/Img/dicom/sample1.DCM";
-        //let imageId ="wadouri:" + window.location.origin + "/Content/Img/scan-me.zip";
+        let imageId = "wadouri:" + window.location.origin + "/" + path;
+        //let imageId = "wadouri:" + baseUrl + path;
+        console.log(imageId)
         ////const imageId = cornerstoneWADOImageLoader.wadouri.fileManager.add();
         ////let imageId ="wadouri:" + Server.MapPath("~/Content/Img/dicom/sample_dcm.dcm");
         //let imageId = 'dicomfile:1';
         ////let imagee = Server.MapPath("~/Content/Img/dicom/sample_dcm.dcm");
         //console.log(imagee)
-        //loadAndViewImage(imageId)
+        loadAndViewImage(imageId)
         //setTimeout(function(){
         //    Download(window.location.origin + "/Content/Img/dicom/sample_dcm.dcm")
         //},1000)
@@ -105,7 +167,7 @@
                     cornerstoneTools.zoom.activate(element, 4); // zoom is the default tool for right mouse button
                     cornerstoneTools.zoomWheel.activate(element); // zoom is the default tool for middle mouse wheel
 
-                    cornerstoneTools.imageStats.enable(element);
+                    //cornerstoneTools.imageStats.enable(element);
                     loaded = true;
                 }
 
@@ -135,32 +197,54 @@
                     return value + (value === 0 ? ' (pixel)' : ' (plane)');
                 }
 
-                document.getElementById('transferSyntax').textContent = getTransferSyntax();
-                document.getElementById('sopClass').textContent = getSopClass();
-                document.getElementById('samplesPerPixel').textContent = image.data.uint16('x00280002');
-                document.getElementById('photometricInterpretation').textContent = image.data.string('x00280004');
-                document.getElementById('numberOfFrames').textContent = image.data.string('x00280008');
-                document.getElementById('planarConfiguration').textContent = getPlanarConfiguration();
+                function onImageRendered(e) {
+                    const eventData = e.detail;
+
+                    // set the canvas context to the image coordinate system
+                    cornerstone.setToPixelCoordinateSystem(eventData.enabledElement, eventData.canvasContext);
+                    //document.getElementById('topright').textContent = "Render Time:" + eventData.renderTimeInMs + " ms";
+                    document.getElementById('WW').textContent =  Math.round(eventData.viewport.voi.windowWidth);
+                    document.getElementById('WL').textContent =  Math.round(eventData.viewport.voi.windowCenter);
+                    document.getElementById('Scale').textContent =  + eventData.viewport.scale.toFixed(2);
+
+                }
+                element.addEventListener('cornerstoneimagerendered', onImageRendered);
+
+                //document.getElementById('transferSyntax').textContent = getTransferSyntax();
+                //document.getElementById('sopClass').textContent = getSopClass();
+                //document.getElementById('samplesPerPixel').textContent = image.data.uint16('x00280002');
+                //document.getElementById('photometricInterpretation').textContent = image.data.string('x00280004');
+                //document.getElementById('ImageType').textContent = image.data.string('x00080008');
+                document.getElementById('InstitutionName').textContent = image.data.string('x00080080');
+                //document.getElementById('OperatorName').textContent = image.data.string('x00081070');
+                document.getElementById('PatientName').textContent = image.data.string('x00100010').replace("^" , " ");
+                document.getElementById('PatientID').textContent = image.data.string('x00100020');
+                //document.getElementById('Date').textContent = image.data.string('x000800012');
+                document.getElementById('PatientAge').textContent = image.data.string('x00101010');
+                document.getElementById('Thk').textContent = image.data.string('x00180050').concat("mm");
+                /*    document.getElementById('PatientSex').textContent = image.data.string('x00100040');*/
+                //document.getElementById('numberOfFrames').textContent = image.data.string('x00280008');
+                //document.getElementById('planarConfiguration').textContent = getPlanarConfiguration();
                 document.getElementById('rows').textContent = image.data.uint16('x00280010');
                 document.getElementById('columns').textContent = image.data.uint16('x00280011');
-                document.getElementById('pixelSpacing').textContent = image.data.string('x00280030');
-                document.getElementById('bitsAllocated').textContent = image.data.uint16('x00280100');
-                document.getElementById('bitsStored').textContent = image.data.uint16('x00280101');
-                document.getElementById('highBit').textContent = image.data.uint16('x00280102');
-                document.getElementById('pixelRepresentation').textContent = getPixelRepresentation();
-                document.getElementById('windowCenter').textContent = image.data.string('x00281050');
-                document.getElementById('windowWidth').textContent = image.data.string('x00281051');
-                document.getElementById('rescaleIntercept').textContent = image.data.string('x00281052');
-                document.getElementById('rescaleSlope').textContent = image.data.string('x00281053');
-                document.getElementById('basicOffsetTable').textContent = image.data.elements.x7fe00010 && image.data.elements.x7fe00010.basicOffsetTable ? image.data.elements.x7fe00010.basicOffsetTable.length : '';
-                document.getElementById('fragments').textContent = image.data.elements.x7fe00010 && image.data.elements.x7fe00010.fragments ? image.data.elements.x7fe00010.fragments.length : '';
-                document.getElementById('minStoredPixelValue').textContent = image.minPixelValue;
-                document.getElementById('maxStoredPixelValue').textContent = image.maxPixelValue;
+                //document.getElementById('pixelSpacing').textContent = image.data.string('x00280030');
+                //document.getElementById('bitsAllocated').textContent = image.data.uint16('x00280100');
+                //document.getElementById('bitsStored').textContent = image.data.uint16('x00280101');
+                //document.getElementById('highBit').textContent = image.data.uint16('x00280102');
+                //document.getElementById('pixelRepresentation').textContent = getPixelRepresentation();
+                //document.getElementById('windowCenter').textContent = image.data.string('x00281050');
+                //document.getElementById('windowWidth').textContent = image.data.string('x00281051');
+                //document.getElementById('rescaleIntercept').textContent = image.data.string('x00281052');
+                //document.getElementById('rescaleSlope').textContent = image.data.string('x00281053');
+                //document.getElementById('basicOffsetTable').textContent = image.data.elements.x7fe00010 && image.data.elements.x7fe00010.basicOffsetTable ? image.data.elements.x7fe00010.basicOffsetTable.length : '';
+                //document.getElementById('fragments').textContent = image.data.elements.x7fe00010 && image.data.elements.x7fe00010.fragments ? image.data.elements.x7fe00010.fragments.length : '';
+                //document.getElementById('minStoredPixelValue').textContent = image.minPixelValue;
+                //document.getElementById('maxStoredPixelValue').textContent = image.maxPixelValue;
                 const end = new Date().getTime();
                 const time = end - start;
-                document.getElementById('totalTime').textContent = time + "ms";
-                document.getElementById('loadTime').textContent = image.loadTimeInMS + "ms";
-                document.getElementById('decodeTime').textContent = image.decodeTimeInMS + "ms";
+                //document.getElementById('totalTime').textContent = time + "ms";
+                //document.getElementById('loadTime').textContent = image.loadTimeInMS + "ms";
+                //document.getElementById('decodeTime').textContent = image.decodeTimeInMS + "ms";
 
             }, function (err) {
                 alert(err);
@@ -173,175 +257,163 @@
         //    const loadProgress = document.getElementById('loadProgress');
         //    loadProgress.textContent = `Image Load Progress: ${eventData.percentComplete}%`;
         //});
-
-
-
-        document.getElementById('selectFile').addEventListener('change', function (e) {
-            // Add the file to the cornerstoneFileImageLoader and get unique
-            // number for that file
-            const file = e.target.files[0];
-            console.log(file)
-            const imageId = cornerstoneWADOImageLoader.wadouri.fileManager.add(file);
-            loadAndViewImage(imageId);
-        });
-
     </script>
     @*<script>
 
-        cornerstoneWADOImageLoader.external.cornerstone = cornerstone;
+            cornerstoneWADOImageLoader.external.cornerstone = cornerstone;
 
-        cornerstoneWADOImageLoader.configure({
-            beforeSend: function (xhr) {
-                // Add custom headers here (e.g. auth tokens)
-                //xhr.setRequestHeader('APIKEY', 'my auth token');
-            },
-        });
+            cornerstoneWADOImageLoader.configure({
+                beforeSend: function (xhr) {
+                    // Add custom headers here (e.g. auth tokens)
+                    //xhr.setRequestHeader('APIKEY', 'my auth token');
+                },
+            });
 
-        var loaded = false;
+            var loaded = false;
 
-        function loadAndViewImage(imageId) {
-            var element = document.getElementById('dicomImage');
+            function loadAndViewImage(imageId) {
+                var element = document.getElementById('dicomImage');
 
-            try {
-                var start = new Date().getTime();
-                cornerstone.loadAndCacheImage(imageId).then(function (image) {
-                    console.log(image);
-                    var viewport = cornerstone.getDefaultViewportForImage(element, image);
-                    //document.getElementById('toggleModalityLUT').checked = (viewport.modalityLUT !== undefined);
-                    //document.getElementById('toggleVOILUT').checked = (viewport.voiLUT !== undefined);
-                    cornerstone.displayImage(element, image, viewport);
-                    if (loaded === false) {
-                        cornerstoneTools.mouseInput.enable(element);
-                        cornerstoneTools.mouseWheelInput.enable(element);
-                        cornerstoneTools.wwwc.activate(element, 1); // ww/wc is the default tool for left mouse button
-                        cornerstoneTools.pan.activate(element, 2); // pan is the default tool for middle mouse button
-                        cornerstoneTools.zoom.activate(element, 4); // zoom is the default tool for right mouse button
-                        cornerstoneTools.zoomWheel.activate(element); // zoom is the default tool for middle mouse wheel
-                        loaded = true;
-                    }
-
-                    function getTransferSyntax() {
-                        const value = image.data.string('x00020010');
-                        return value + ' [' + uids[value] + ']';
-                    }
-
-                    function getSopClass() {
-                        const value = image.data.string('x00080016');
-                        return value + ' [' + uids[value] + ']';
-                    }
-
-                    function getPixelRepresentation() {
-                        const value = image.data.uint16('x00280103');
-                        if (value === undefined) {
-                            return;
+                try {
+                    var start = new Date().getTime();
+                    cornerstone.loadAndCacheImage(imageId).then(function (image) {
+                        console.log(image);
+                        var viewport = cornerstone.getDefaultViewportForImage(element, image);
+                        //document.getElementById('toggleModalityLUT').checked = (viewport.modalityLUT !== undefined);
+                        //document.getElementById('toggleVOILUT').checked = (viewport.voiLUT !== undefined);
+                        cornerstone.displayImage(element, image, viewport);
+                        if (loaded === false) {
+                            cornerstoneTools.mouseInput.enable(element);
+                            cornerstoneTools.mouseWheelInput.enable(element);
+                            cornerstoneTools.wwwc.activate(element, 1); // ww/wc is the default tool for left mouse button
+                            cornerstoneTools.pan.activate(element, 2); // pan is the default tool for middle mouse button
+                            cornerstoneTools.zoom.activate(element, 4); // zoom is the default tool for right mouse button
+                            cornerstoneTools.zoomWheel.activate(element); // zoom is the default tool for middle mouse wheel
+                            loaded = true;
                         }
-                        return value + (value === 0 ? ' (unsigned)' : ' (signed)');
-                    }
 
-                    function getPlanarConfiguration() {
-                        const value = image.data.uint16('x00280006');
-                        if (value === undefined) {
-                            return;
+                        function getTransferSyntax() {
+                            const value = image.data.string('x00020010');
+                            return value + ' [' + uids[value] + ']';
                         }
-                        return value + (value === 0 ? ' (pixel)' : ' (plane)');
-                    }
+
+                        function getSopClass() {
+                            const value = image.data.string('x00080016');
+                            return value + ' [' + uids[value] + ']';
+                        }
+
+                        function getPixelRepresentation() {
+                            const value = image.data.uint16('x00280103');
+                            if (value === undefined) {
+                                return;
+                            }
+                            return value + (value === 0 ? ' (unsigned)' : ' (signed)');
+                        }
+
+                        function getPlanarConfiguration() {
+                            const value = image.data.uint16('x00280006');
+                            if (value === undefined) {
+                                return;
+                            }
+                            return value + (value === 0 ? ' (pixel)' : ' (plane)');
+                        }
 
 
-                    document.getElementById('transferSyntax').textContent = getTransferSyntax();
-                    document.getElementById('sopClass').textContent = getSopClass();
-                    document.getElementById('samplesPerPixel').textContent = image.data.uint16('x00280002');
-                    document.getElementById('photometricInterpretation').textContent = image.data.string('x00280004');
-                    document.getElementById('numberOfFrames').textContent = image.data.string('x00280008');
-                    document.getElementById('planarConfiguration').textContent = getPlanarConfiguration();
-                    document.getElementById('rows').textContent = image.data.uint16('x00280010');
-                    document.getElementById('columns').textContent = image.data.uint16('x00280011');
-                    document.getElementById('pixelSpacing').textContent = image.data.string('x00280030');
-                    document.getElementById('rowPixelSpacing').textContent = image.rowPixelSpacing;
-                    document.getElementById('columnPixelSpacing').textContent = image.columnPixelSpacing;
-                    document.getElementById('bitsAllocated').textContent = image.data.uint16('x00280100');
-                    document.getElementById('bitsStored').textContent = image.data.uint16('x00280101');
-                    document.getElementById('highBit').textContent = image.data.uint16('x00280102');
-                    document.getElementById('pixelRepresentation').textContent = getPixelRepresentation();
-                    document.getElementById('windowCenter').textContent = image.data.string('x00281050');
-                    document.getElementById('windowWidth').textContent = image.data.string('x00281051');
-                    document.getElementById('rescaleIntercept').textContent = image.data.string('x00281052');
-                    document.getElementById('rescaleSlope').textContent = image.data.string('x00281053');
-                    document.getElementById('basicOffsetTable').textContent = image.data.elements.x7fe00010.basicOffsetTable ? image.data.elements.x7fe00010.basicOffsetTable.length : '';
-                    document.getElementById('fragments').textContent = image.data.elements.x7fe00010.fragments ? image.data.elements.x7fe00010.fragments.length : '';
-                    document.getElementById('minStoredPixelValue').textContent = image.minPixelValue;
-                    document.getElementById('maxStoredPixelValue').textContent = image.maxPixelValue;
-                    var end = new Date().getTime();
-                    var time = end - start;
-                    document.getElementById('totalTime').textContent = time + "ms";
-                    document.getElementById('loadTime').textContent = image.loadTimeInMS + "ms";
-                    document.getElementById('decodeTime').textContent = image.decodeTimeInMS + "ms";
+                        document.getElementById('transferSyntax').textContent = getTransferSyntax();
+                        document.getElementById('sopClass').textContent = getSopClass();
+                        document.getElementById('samplesPerPixel').textContent = image.data.uint16('x00280002');
+                        document.getElementById('photometricInterpretation').textContent = image.data.string('x00280004');
+                        document.getElementById('numberOfFrames').textContent = image.data.string('x00280008');
+                        document.getElementById('planarConfiguration').textContent = getPlanarConfiguration();
+                        document.getElementById('rows').textContent = image.data.uint16('x00280010');
+                        document.getElementById('columns').textContent = image.data.uint16('x00280011');
+                        document.getElementById('pixelSpacing').textContent = image.data.string('x00280030');
+                        document.getElementById('rowPixelSpacing').textContent = image.rowPixelSpacing;
+                        document.getElementById('columnPixelSpacing').textContent = image.columnPixelSpacing;
+                        document.getElementById('bitsAllocated').textContent = image.data.uint16('x00280100');
+                        document.getElementById('bitsStored').textContent = image.data.uint16('x00280101');
+                        document.getElementById('highBit').textContent = image.data.uint16('x00280102');
+                        document.getElementById('pixelRepresentation').textContent = getPixelRepresentation();
+                        document.getElementById('windowCenter').textContent = image.data.string('x00281050');
+                        document.getElementById('windowWidth').textContent = image.data.string('x00281051');
+                        document.getElementById('rescaleIntercept').textContent = image.data.string('x00281052');
+                        document.getElementById('rescaleSlope').textContent = image.data.string('x00281053');
+                        document.getElementById('basicOffsetTable').textContent = image.data.elements.x7fe00010.basicOffsetTable ? image.data.elements.x7fe00010.basicOffsetTable.length : '';
+                        document.getElementById('fragments').textContent = image.data.elements.x7fe00010.fragments ? image.data.elements.x7fe00010.fragments.length : '';
+                        document.getElementById('minStoredPixelValue').textContent = image.minPixelValue;
+                        document.getElementById('maxStoredPixelValue').textContent = image.maxPixelValue;
+                        var end = new Date().getTime();
+                        var time = end - start;
+                        document.getElementById('totalTime').textContent = time + "ms";
+                        document.getElementById('loadTime').textContent = image.loadTimeInMS + "ms";
+                        document.getElementById('decodeTime').textContent = image.decodeTimeInMS + "ms";
 
-                }, function (err) {
+                    }, function (err) {
+                        throw err;
+                    });
+                }
+                catch (err) {
                     throw err;
+                }
+            }
+
+            function downloadAndView(downloadUrl) {
+                let url = downloadUrl;
+                // prefix the url with wadouri: so cornerstone can find the image loader
+                url = "wadouri:" + url;
+                // image enable the dicomImage element and activate a few tools
+                loadAndViewImage(url);
+            }
+
+            const imageButtons = document.getElementsByClassName('imgbtn');
+            for (let i = 0; i < imageButtons.length; i++) {
+                const el = imageButtons[i];
+                el.addEventListener('click', function (e) {
+                    const img = e.target.innerText;
+                    downloadAndView('https://raw.githubusercontent.com/cornerstonejs/cornerstoneWADOImageLoader/master/testImages/' + 'CT2_J2KR');
                 });
             }
-            catch (err) {
-                throw err;
-            }
-        }
 
-        function downloadAndView(downloadUrl) {
-            let url = downloadUrl;
-            // prefix the url with wadouri: so cornerstone can find the image loader
-            url = "wadouri:" + url;
-            // image enable the dicomImage element and activate a few tools
-            loadAndViewImage(url);
-        }
-
-        const imageButtons = document.getElementsByClassName('imgbtn');
-        for (let i = 0; i < imageButtons.length; i++) {
-            const el = imageButtons[i];
-            el.addEventListener('click', function (e) {
-                const img = e.target.innerText;
-                downloadAndView('https://raw.githubusercontent.com/cornerstonejs/cornerstoneWADOImageLoader/master/testImages/' + 'CT2_J2KR');
+            cornerstone.events.addEventListener('cornerstoneimageloadprogress', function (event) {
+                const eventData = event.detail;
+                const loadProgress = document.getElementById('loadProgress');
+                loadProgress.textContent = `Image Load Progress: ${eventData.percentComplete}%`;
             });
-        }
 
-        cornerstone.events.addEventListener('cornerstoneimageloadprogress', function (event) {
-            const eventData = event.detail;
-            const loadProgress = document.getElementById('loadProgress');
-            loadProgress.textContent = `Image Load Progress: ${eventData.percentComplete}%`;
-        });
-
-        function getUrlWithoutFrame() {
-            var url = document.getElementById('wadoURL').value;
-            var frameIndex = url.indexOf('frame=');
-            if (frameIndex !== -1) {
-                url = url.substr(0, frameIndex - 1);
+            function getUrlWithoutFrame() {
+                var url = document.getElementById('wadoURL').value;
+                var frameIndex = url.indexOf('frame=');
+                if (frameIndex !== -1) {
+                    url = url.substr(0, frameIndex - 1);
+                }
+                return url;
             }
-            return url;
-        }
 
-        var element = document.getElementById('dicomImage');
-        cornerstone.enable(element);
+            var element = document.getElementById('dicomImage');
+            cornerstone.enable(element);
 
-        document.getElementById('downloadAndView').addEventListener('click', function (e) {
-            downloadAndView();
-        });
-        document.getElementById('load').addEventListener('click', function (e) {
-            var url = getUrlWithoutFrame();
-            cornerstoneWADOImageLoader.wadouri.dataSetCacheManager.load(url);
-        });
-        document.getElementById('unload').addEventListener('click', function (e) {
-            var url = getUrlWithoutFrame();
-            cornerstoneWADOImageLoader.wadouri.dataSetCacheManager.unload(url);
-        });
+            document.getElementById('downloadAndView').addEventListener('click', function (e) {
+                downloadAndView();
+            });
+            document.getElementById('load').addEventListener('click', function (e) {
+                var url = getUrlWithoutFrame();
+                cornerstoneWADOImageLoader.wadouri.dataSetCacheManager.load(url);
+            });
+            document.getElementById('unload').addEventListener('click', function (e) {
+                var url = getUrlWithoutFrame();
+                cornerstoneWADOImageLoader.wadouri.dataSetCacheManager.unload(url);
+            });
 
-        document.getElementById('purge').addEventListener('click', function (e) {
-            cornerstone.imageCache.purgeCache();
-        });
+            document.getElementById('purge').addEventListener('click', function (e) {
+                cornerstone.imageCache.purgeCache();
+            });
 
-        const form = document.getElementById('form');
-        form.addEventListener('submit', function () {
-            downloadAndView();
-            return false;
-        });
+            const form = document.getElementById('form');
+            form.addEventListener('submit', function () {
+                downloadAndView();
+                return false;
+            });
 
-    </script>*@
+        </script>*@
 </body>
 </html>
