@@ -44,6 +44,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -97,6 +100,21 @@
     <Content Include="Content\Img\Jpg\4.jpg" />
     <Content Include="Content\Img\Jpg\5.jpg" />
     <Content Include="Content\Img\Jpg\empty-modern-hospital-office-room-equipped-with-medical.jpg" />
+    <Content Include="Content\Img\series\SR001\tmb\1.3.12.2.1107.5.2.30.63392.2024052400433245131825980.jpg" />
+    <Content Include="Content\Img\series\SR001\tmb\1.3.12.2.1107.5.2.30.63392.2024052400433334727225984.jpg" />
+    <Content Include="Content\Img\series\SR001\tmb\1.3.12.2.1107.5.2.30.63392.2024052400433424375725988.jpg" />
+    <Content Include="Content\Img\series\SR001\tmb\1.3.12.2.1107.5.2.30.63392.2024052400433513958325992.jpg" />
+    <Content Include="Content\Img\series\SR001\tmb\1.3.12.2.1107.5.2.30.63392.202405240043363635025996.jpg" />
+    <Content Include="Content\Img\series\SR001\tmb\1.3.12.2.1107.5.2.30.63392.2024052400433693438726000.jpg" />
+    <Content Include="Content\Img\series\tmb\SR001.jpg" />
+    <Content Include="Content\Img\series\tmb\SR002.jpg" />
+    <Content Include="Content\Img\series\tmb\SR003.jpg" />
+    <Content Include="Content\Img\series\tmb\SR004.jpg" />
+    <Content Include="Content\Img\series\tmb\SR005.jpg" />
+    <Content Include="Content\Img\series\tmb\SR006.jpg" />
+    <Content Include="Content\Img\series\tmb\SR5001.jpg" />
+    <Content Include="Content\Img\series\tmb\SR5002.jpg" />
+    <Content Include="Content\Img\series\tmb\SR5003.jpg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\cornerstone-math.js" />
     <Content Include="Scripts\cornerstone-prev.js" />
@@ -123,6 +141,21 @@
     <Content Include="Content\Img\dicom\sample_dcm.dcm" />
     <Content Include="Content\Img\dicom\sample1.DCM" />
     <Content Include="Content\Img\scan-me.zip" />
+    <Content Include="Content\Img\series\SR001\1.3.12.2.1107.5.2.30.63392.2024052400433245131825980.DCM" />
+    <Content Include="Content\Img\series\SR001\1.3.12.2.1107.5.2.30.63392.2024052400433334727225984.DCM" />
+    <Content Include="Content\Img\series\SR001\1.3.12.2.1107.5.2.30.63392.2024052400433424375725988.DCM" />
+    <Content Include="Content\Img\series\SR001\1.3.12.2.1107.5.2.30.63392.2024052400433513958325992.DCM" />
+    <Content Include="Content\Img\series\SR001\1.3.12.2.1107.5.2.30.63392.202405240043363635025996.DCM" />
+    <Content Include="Content\Img\series\SR001\1.3.12.2.1107.5.2.30.63392.2024052400433693438726000.DCM" />
+    <Content Include="Content\Img\series\SR004\1.3.12.2.1107.5.2.30.63392.2024052400455939207426333.DCM" />
+    <Content Include="Content\Img\series\SR004\1.3.12.2.1107.5.2.30.63392.2024052400455939335526338.DCM" />
+    <Content Include="Content\Img\series\SR004\1.3.12.2.1107.5.2.30.63392.2024052400455939415326339.DCM" />
+    <Content Include="Content\Img\series\SR004\1.3.12.2.1107.5.2.30.63392.2024052400455939862626340.DCM" />
+    <Content Include="Content\Img\series\SR004\1.3.12.2.1107.5.2.30.63392.2024052400455944755926342.DCM" />
+    <Content Include="Content\Img\series\SR004\1.3.12.2.1107.5.2.30.63392.2024052400455944809026343.DCM" />
+    <Content Include="Content\Img\series\SR004\1.3.12.2.1107.5.2.30.63392.2024052400455945348426344.DCM" />
+    <Content Include="Content\Img\series\SR004\1.3.12.2.1107.5.2.30.63392.2024052400455945822326345.DCM" />
+    <Content Include="Content\Img\series\SR004\1.3.12.2.1107.5.2.30.63392.2024052400455950115226346.DCM" />
     <None Include="packages.config" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Tumbnail.cshtml" />

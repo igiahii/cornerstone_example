@@ -1,8 +1,5 @@
 ﻿@using System.IO
-@{
-    string file = File.ReadAllText(Server.MapPath("~/Content/Img/dicom/sample_dcm.dcm"));
 
-}
 @{
     Layout = null;
 }
@@ -15,6 +12,7 @@
     <title>Dicom</title>
     <link rel="stylesheet" href="~/Content/Css/bootstrap.css" />
     <link rel="stylesheet" href="~/Content/Css/Dicom.css" />
+    <script src="~/Scripts/jquery-3.7.1.min.js"></script>
     <script src="~/Scripts/cornerstone-prev.js"></script>
     <script src="~/Scripts/cornerstone-math.js"></script>
     <script src="~/Scripts/cornerstone-tools.js"></script>
@@ -25,8 +23,15 @@
 </head>
 <body>
     <div class="dicom">
-        <div class="dicom-tumbnail"></div>
-        <div class="dicom-container" data-path="@ViewBag.Path">
+        <div class="dicom-tumbnail">
+            <div class="active tumbnail-item">
+                <img id="item1" class="tumbnail-image" src="~/Content/Img/series/tmb/SR001.jpg" />
+            </div>
+            <div class="tumbnail-item">
+                <img class="tumbnail-image" src="~/Content/Img/series/tmb/SR004.jpg" />
+            </div>
+        </div>
+        <div class="dicom-container" data-files="@ViewBag.Files">
             <div style="width:100%;height:100%;position:relative;color: white;display:inline-block;border-style:solid;border-color:black;" oncontextmenu="return false" class="disable-selection noIbar" unselectable="on" onselectstart="return false;" onmousedown="return false;">
                 <div id="dicomImage" style="width:100%;height:100%"> </div>
             </div>
@@ -39,31 +44,31 @@
                     <span>Age: </span><span class="fw-bold" id="PatientAge"></span>
                 </span>
                 <!--<span>Image Type: </span><span id="ImageType"></span><br>
-        <span>Operator's Name: </span><span id="OperatorName"></span><br>
-        <span>Patient Gender: </span><span id="PatientSex"></span><br>
-        <span>Institution Name: </span><span id="InstitutionName"></span><br>-->
+                <span>Operator's Name: </span><span id="OperatorName"></span><br>
+                <span>Patient Gender: </span><span id="PatientSex"></span><br>
+                <span>Institution Name: </span><span id="InstitutionName"></span><br>-->
                 @*<span>Number Of Frames: </span><span id="numberOfFrames"></span><br>
-            <span>Planar Configuration: </span><span id="planarConfiguration"></span><br>
-            <span>Rows: </span><span id="rows"></span><br>
-            <span>Columns: </span><span id="columns"></span><br>
-            <span>Pixel Spacing: </span><span id="pixelSpacing"></span><br>
-            <span>Row Pixel Spacing: </span><span id="rowPixelSpacing"></span><br>
-            <span>Column Pixel Spacing: </span><span id="columnPixelSpacing"></span><br>
-            <span>Bits Allocated: </span><span id="bitsAllocated"></span><br>
-            <span>Bits Stored: </span><span id="bitsStored"></span><br>
-            <span>High Bit: </span><span id="highBit"></span><br>
-            <span>Pixel Representation: </span><span id="pixelRepresentation"></span><br>
-            <span>WindowCenter: </span><span id="windowCenter"></span><br>
-            <span>WindowWidth: </span><span id="windowWidth"></span><br>
-            <span>RescaleIntercept: </span><span id="rescaleIntercept"></span><br>
-            <span>RescaleSlope: </span><span id="rescaleSlope"></span><br>
-            <span>Basic Offset Table Entries: </span><span id="basicOffsetTable"></span><br>
-            <span>Fragments: </span><span id="fragments"></span><br>
-            <span>Max Stored Pixel Value: </span><span id="minStoredPixelValue"></span><br>
-            <span>Min Stored Pixel Value: </span><span id="maxStoredPixelValue"></span><br>*@
+                    <span>Planar Configuration: </span><span id="planarConfiguration"></span><br>
+                    <span>Rows: </span><span id="rows"></span><br>
+                    <span>Columns: </span><span id="columns"></span><br>
+                    <span>Pixel Spacing: </span><span id="pixelSpacing"></span><br>
+                    <span>Row Pixel Spacing: </span><span id="rowPixelSpacing"></span><br>
+                    <span>Column Pixel Spacing: </span><span id="columnPixelSpacing"></span><br>
+                    <span>Bits Allocated: </span><span id="bitsAllocated"></span><br>
+                    <span>Bits Stored: </span><span id="bitsStored"></span><br>
+                    <span>High Bit: </span><span id="highBit"></span><br>
+                    <span>Pixel Representation: </span><span id="pixelRepresentation"></span><br>
+                    <span>WindowCenter: </span><span id="windowCenter"></span><br>
+                    <span>WindowWidth: </span><span id="windowWidth"></span><br>
+                    <span>RescaleIntercept: </span><span id="rescaleIntercept"></span><br>
+                    <span>RescaleSlope: </span><span id="rescaleSlope"></span><br>
+                    <span>Basic Offset Table Entries: </span><span id="basicOffsetTable"></span><br>
+                    <span>Fragments: </span><span id="fragments"></span><br>
+                    <span>Max Stored Pixel Value: </span><span id="minStoredPixelValue"></span><br>
+                    <span>Min Stored Pixel Value: </span><span id="maxStoredPixelValue"></span><br>*@
                 <!--<span>Total Time: </span><span id="totalTime"></span><br>
-        <span>Load Time: </span><span id="loadTime"></span><br>
-        <span>Decode Time: </span><span id="decodeTime"></span><br>-->
+                <span>Load Time: </span><span id="loadTime"></span><br>
+                <span>Decode Time: </span><span id="decodeTime"></span><br>-->
             </div>
             <div class="bottom-left-details text-white">
                 <span>
@@ -81,11 +86,18 @@
             </div>
             <div class="top-right-details text-white">
                 <span>
-                    <span>Date: </span><span class="fw-bold" id="Date">2021/05/21</span>
+                    <span>Frame: </span><span class="fw-bold" id="FrameNum"></span>
                 </span>
                 <span>
-                    <span>Time: </span><span class="fw-bold" id="Time">09:54:52</span>
+                    <span>Date: </span><span class="fw-bold" id="Date"></span>
                 </span>
+                <span>
+                    <span>Time: </span><span class="fw-bold" id="Time"></span>
+                </span>
+               <span class="fw-bold" id="ImageType"></span>
+            </div>
+            <div class="right-details">
+                <input class="range-slider" type="range" min="0" max="100" value="0" />
             </div>
             <div class="bottom-right-details text-white">
                 <span>
@@ -130,25 +142,19 @@
         //        //xhr.setRequestHeader('x-auth-token', 'my auth token');
         //    },
         //});
-        let path = document.querySelector(".dicom-container").dataset.path
+        //let path = document.querySelector(".dicom-container").dataset.path
+        let Files = JSON.parse(document.querySelector(".dicom-container").dataset.files)
+        let path1 = document.querySelector("#item1").src
+        path1 = path1.replace(".jpg", "/")
+        path1 = path1.replace("/tmb", "")
+        path1 = path1.concat(Files[0])
+        console.log(path1)
         let baseUrl = document.querySelector(".dicom-container").dataset.baseurl
         let loaded = false;
-        //let imageId = "wadouri:" + 'https://raw.githubusercontent.com/cornerstonejs/cornerstoneWADOImageLoader/master/testImages/' + 'CT2_J2KR'
-        let imageId = "wadouri:" + window.location.origin + "/" + path;
-        //let imageId = "wadouri:" + baseUrl + path;
+        //let imageId = "wadouri:" + window.location.origin + "/" + path;
+        let imageId = "wadouri:" + path1;
         console.log(imageId)
-        ////const imageId = cornerstoneWADOImageLoader.wadouri.fileManager.add();
-        ////let imageId ="wadouri:" + Server.MapPath("~/Content/Img/dicom/sample_dcm.dcm");
-        //let imageId = 'dicomfile:1';
-        ////let imagee = Server.MapPath("~/Content/Img/dicom/sample_dcm.dcm");
-        //console.log(imagee)
         loadAndViewImage(imageId)
-        //setTimeout(function(){
-        //    Download(window.location.origin + "/Content/Img/dicom/sample_dcm.dcm")
-        //},1000)
-        //function Download(url) {
-        //    location.href = url;
-        //}
 
         function loadAndViewImage(imageId) {
             const element = document.getElementById('dicomImage');
@@ -165,7 +171,7 @@
                     cornerstoneTools.wwwc.activate(element, 1); // ww/wc is the default tool for left mouse button
                     cornerstoneTools.pan.activate(element, 2); // pan is the default tool for middle mouse button
                     cornerstoneTools.zoom.activate(element, 4); // zoom is the default tool for right mouse button
-                    cornerstoneTools.zoomWheel.activate(element); // zoom is the default tool for middle mouse wheel
+                    //cornerstoneTools.zoomWheel.activate(element); // zoom is the default tool for middle mouse wheel
 
                     //cornerstoneTools.imageStats.enable(element);
                     loaded = true;
@@ -203,9 +209,9 @@
                     // set the canvas context to the image coordinate system
                     cornerstone.setToPixelCoordinateSystem(eventData.enabledElement, eventData.canvasContext);
                     //document.getElementById('topright').textContent = "Render Time:" + eventData.renderTimeInMs + " ms";
-                    document.getElementById('WW').textContent =  Math.round(eventData.viewport.voi.windowWidth);
-                    document.getElementById('WL').textContent =  Math.round(eventData.viewport.voi.windowCenter);
-                    document.getElementById('Scale').textContent =  + eventData.viewport.scale.toFixed(2);
+                    document.getElementById('WW').textContent = Math.round(eventData.viewport.voi.windowWidth);
+                    document.getElementById('WL').textContent = Math.round(eventData.viewport.voi.windowCenter);
+                    document.getElementById('Scale').textContent = + eventData.viewport.scale.toFixed(2);
 
                 }
                 element.addEventListener('cornerstoneimagerendered', onImageRendered);
@@ -214,10 +220,16 @@
                 //document.getElementById('sopClass').textContent = getSopClass();
                 //document.getElementById('samplesPerPixel').textContent = image.data.uint16('x00280002');
                 //document.getElementById('photometricInterpretation').textContent = image.data.string('x00280004');
-                //document.getElementById('ImageType').textContent = image.data.string('x00080008');
+                let dateUnFormated = image.data.string('x00080012')
+                let dateFormated = `${dateUnFormated.slice(0, 4)}/${dateUnFormated.slice(4, 6)}/${dateUnFormated.slice(6, 8)}`
+                document.getElementById('Date').textContent = dateFormated;
+                document.getElementById('Time').textContent = image.data.string('x00080013');
+
+                document.getElementById('ImageType').textContent = image.data.string('x00280008');
+
                 document.getElementById('InstitutionName').textContent = image.data.string('x00080080');
                 //document.getElementById('OperatorName').textContent = image.data.string('x00081070');
-                document.getElementById('PatientName').textContent = image.data.string('x00100010').replace("^" , " ");
+                document.getElementById('PatientName').textContent = image.data.string('x00100010').replace("^", " ");
                 document.getElementById('PatientID').textContent = image.data.string('x00100020');
                 //document.getElementById('Date').textContent = image.data.string('x000800012');
                 document.getElementById('PatientAge').textContent = image.data.string('x00101010');
@@ -227,6 +239,7 @@
                 //document.getElementById('planarConfiguration').textContent = getPlanarConfiguration();
                 document.getElementById('rows').textContent = image.data.uint16('x00280010');
                 document.getElementById('columns').textContent = image.data.uint16('x00280011');
+                document.getElementById('FrameNum').textContent = `${getCurrentIndex() + 1} / ${Files.length}`
                 //document.getElementById('pixelSpacing').textContent = image.data.string('x00280030');
                 //document.getElementById('bitsAllocated').textContent = image.data.uint16('x00280100');
                 //document.getElementById('bitsStored').textContent = image.data.uint16('x00280101');
@@ -252,11 +265,94 @@
         }
         const element = document.getElementById('dicomImage');
         cornerstone.enable(element);
+
+      
+        let StaticPath
+        function getCurrentIndex() {
+            const currentSrc = path1.split('/').pop(); // Extract filename from src
+            StaticPath = path1.replace(currentSrc, "")
+            return Files.indexOf(currentSrc);
+        }
+
+        // Function to update the image source
+        function updateImage(index) {
+            if (index >= 0 && index < Files.length) {
+                path1 = StaticPath + Files[index]
+                imageId = "wadouri:" + path1;
+                loadAndViewImage(imageId)
+            }
+        }
+        const step = 100 / (Files.length - 1)
+        let rangeSlider = document.querySelector(".range-slider")
+        rangeSlider.step = step
+        element.addEventListener("wheel", function (event) {
+            event.preventDefault()
+            let currentValue = parseFloat(rangeSlider.value);
+            let currentIndex = getCurrentIndex();
+            if (event.deltaY < 0) {
+                //scrolling up
+                currentIndex--
+                if (rangeSlider.value > 0) {
+                    rangeSlider.value = currentValue - step
+                }
+            } else if (event.deltaY > 0) {
+                //scrolling down
+                currentIndex++
+                if (rangeSlider.value < 100) {
+                    rangeSlider.value = currentValue + step
+                }
+            }
+            // Ensure the value remains within bounds (0 to 100)
+            if (rangeSlider.value < 0) {
+                rangeSlider.value = 0;
+            } else if (rangeSlider.value > 100) {
+                rangeSlider.value = 100;
+            }
+            updateImage(currentIndex)
+        })
+        rangeSlider.addEventListener("input", function () {
+            let indexOfFiles = Math.floor(this.value / step)
+            updateImage(indexOfFiles)
+        })
+
+        ////on click series
+        //document.querySelectorAll(".tumbnail-image").forEach(imageItem => imageItem.addEventListener("click", function (event) {
+        //    console.log(document.querySelectorAll(".tumbnail-item"))
+        //    document.querySelectorAll(".tumbnail-item").forEach(item => item.classList.remove("active"))
+        //    imageItem.parentNode.classList.add("active")
+        //}))
+
         //cornerstone.events.addEventListener('cornerstoneimageloadprogress', function (event) {
         //    const eventData = event.detail;
         //    const loadProgress = document.getElementById('loadProgress');
         //    loadProgress.textContent = `Image Load Progress: ${eventData.percentComplete}%`;
         //});
+    </script>
+    <script>
+        $(document).ready(function () {
+            $(".tumbnail-image").on("click", function () {
+                if ($(this).parent().is(".active")) return
+                $(".tumbnail-item").removeClass("active")
+                $(this).parent().addClass("active")
+                let folderOfDicom = $(this).prop("src").replace(".jpg", "")
+                folderOfDicom = folderOfDicom.split("/").pop()
+                $.ajax({
+                    method: "POST",
+                    url: "@Url.Action("Dicom")",
+                    data: {
+                        folderOfDicom : folderOfDicom
+                    },
+                    success: function (response) {
+                        if (response.successMsg) {
+                            alert(response.successMsg)
+                        } else {
+                            alert(response.errorMsg)
+                        }
+                    }
+                })                
+
+            })
+        })
     </script>
     @*<script>
 

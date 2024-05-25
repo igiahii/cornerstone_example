@@ -39,6 +39,27 @@
     top: 15px;
     right: 15px;
 }
+.right-details {
+    position : absolute ;
+    right : 100px ;
+}
+.range-slider {
+    outline: none;
+    -webkit-appearance: none;
+    position: absolute;
+    width: 500px;
+    height: 5px;
+    transform: translate(-50%, -50%) rotate(90deg);
+    background-color: #c3c3c3
+}
+    .range-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 15px;
+        height: 30px;
+        border-radius: 10px;
+        background-color: rgb(255, 216, 0)
+    }
 .bottom-right-details {
     display: flex;
     flex-direction: column;
@@ -50,5 +71,25 @@
 .dicom-tumbnail {
     width : 180px ;
     min-height : 100% ;
-    background-color : #000
+    background-color : #000 ;
+    display : flex ;
+    flex-direction : column ;
+    align-items : center ;
+    justify-content : flex-start ;
+    padding : 10px ;
+}
+    .dicom-tumbnail .active {
+        border: 1px solid rgb(255, 216, 0)
+    }
+.tumbnail-item {
+    height : 160px ;
+    width : 160px ;
+    border : 1px solid #c3c3c3;
+    cursor : pointer ;
+    margin : 10px;
+}
+.tumbnail-image{
+    width : 100% ;
+    height : 100% ;
+    object-fit : contain ;
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,13 +23,30 @@ namespace cornerstone_example2.Controllers
         {
             //string baseUrl = AppDomain.CurrentDomain.BaseDirectory;
             string baseUrl = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"));
-            string path = Path.Combine("Content", "Img", "dicom", "sample1.DCM").Replace("\\", "/");
-            //if (System.IO.File.Exists(path))
-            //{
-            //}
+
+            var basePath = AppDomain.CurrentDomain.BaseDirectory;
+            var imageFolder = Path.Combine(basePath,"Content" , "Img" , "series" , "SR001");
+            var Images = Directory.GetFiles(imageFolder, "*.DCM").Select(Path.GetFileName).OrderBy(name => name).ToList();
+            string jsonImages = JsonConvert.SerializeObject(Images);
+                ViewBag.Files = jsonImages;
                 ViewBag.BaseUrl = baseUrl;
-                ViewBag.Path = path;
             return View();
+        }
+        [HttpPost]
+        public ActionResult Dicom(string folderOfDicom)
+        {
+            var basePath = AppDomain.CurrentDomain.BaseDirectory;
+            var imageFolder = Path.Combine(basePath, "Content", "Img", "series", folderOfDicom);
+            if (Directory.Exists(imageFolder))
+            {
+                var Images = Directory.GetFiles(imageFolder, "*.DCM").Select(Path.GetFileName).OrderBy(name => name).ToList();
+                string jsonImages = JsonConvert.SerializeObject(Images);
+                return Json(new { successMsg = jsonImages });
+            }
+            else
+            {
+                return Json(new { errorMsg = "folder not found!" });
+            }
         }
     }
 }
