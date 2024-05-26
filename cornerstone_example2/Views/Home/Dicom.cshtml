@@ -23,91 +23,175 @@
 </head>
 <body>
     <div class="dicom">
+        <div class="dicom-toolbar">
+            <div class="toolbar-list">
+                <button id="reset" class="toolbar-btn btn btn-outline-secondary rounded-0 mx-1" title="reset" type="button">
+                    <svg width="24" height="24" fill="currentColor" class="reset-btn" viewBox="0 0 16 16">
+                        <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9" />
+                        <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z" />
+                    </svg>
+                </button>
+                <button id="pan" class="toolbar-btn btn btn-outline-secondary rounded-0 mx-1" title="move" type="button">
+                    <svg width="22" height="22" fill="currentColor" class="move-btn" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10M.146 8.354a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L1.707 7.5H5.5a.5.5 0 0 1 0 1H1.707l1.147 1.146a.5.5 0 0 1-.708.708zM10 8a.5.5 0 0 1 .5-.5h3.793l-1.147-1.146a.5.5 0 0 1 .708-.708l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L14.293 8.5H10.5A.5.5 0 0 1 10 8" />
+                    </svg>
+                </button>
+                <button id="wwwc" class="toolbar-btn btn btn-outline-secondary rounded-0 mx-1" title="window level" type="button">
+                    <svg width="22" height="22" fill="currentColor" class="wwwc-btn" viewBox="0 0 16 16">
+                        <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
+                    </svg>
+                </button>
+                <button id="zoom" class="toolbar-btn btn btn-outline-secondary rounded-0 mx-1" title="zoom in/out" type="button">
+                    <svg width="21" height="21" fill="currentColor" class="zoom-btn" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                    </svg>
+                </button>
+                <button id="hFlip" class="toolbar-btn btn btn-outline-secondary rounded-0 mx-1" title="flip H" type="button">
+                    <svg width="21" height="21" fill="currentColor" class="flipH-btn" viewBox="0 0 100 100">
+                        <path d="M.002 73.945a3.5 3.5 0 0 0 2.05 3.098l31 14.072A3.5 3.5 0 0 0 38 87.925l-.05-75.857a3.5 3.5 0 0 0-5.58-2.812L4.474 29.869a3.5 3.5 0 0 0-1.41 2.555L.01 73.596a3.5 3.5 0 0 0-.008.35zm7.17-2.267l2.754-37.135l21.027-15.54l.043 63.491zM47.5 100h5V90h-5zm0-15h5V75h-5zm0-15h5V60h-5zm0-15h5V45h-5zm0-15h5V30h-5zm0-15h5V15h-5zm0-15h5V0h-5zM62 87.926a3.5 3.5 0 0 0 4.947 3.19l31-14.073a3.5 3.5 0 0 0 2.051-3.098a3.5 3.5 0 0 0-.008-.35l-3.054-41.171a3.5 3.5 0 0 0-1.41-2.555L67.63 9.256a3.5 3.5 0 0 0-5.58 2.812z" fill="#fff" />
+                    </svg>
+                </button>
+                <button id="vFlip" class="toolbar-btn btn btn-outline-secondary rounded-0 mx-1" title="flip V" type="button">
+                    <svg width="21" height="21" fill="currentColor" class="flipV-btn" viewBox="0 0 100 100">
+                        <g fill="#fff">
+                            <path d="M0 52.5h10v-5H0zm15 0h10v-5H15zm15 0h10v-5H30zm15 0h10v-5H45zm15 0h10v-5H60zm15 0h10v-5H75zm15 0h10v-5H90z"></path>
+                            <path d="M26.055.002a3.5 3.5 0 0 0-3.098 2.05l-14.072 31A3.5 3.5 0 0 0 12.075 38l75.857-.05a3.5 3.5 0 0 0 2.812-5.58L70.131 4.474a3.5 3.5 0 0 0-2.555-1.41L26.404.01a3.5 3.5 0 0 0-.35-.008zm2.267 7.17l37.135 2.754l15.54 21.027l-63.491.043z"></path>
+                            <path d="M12.074 62a3.5 3.5 0 0 0-3.19 4.947l14.073 31a3.5 3.5 0 0 0 3.098 2.051a3.5 3.5 0 0 0 .35-.008l41.171-3.054a3.5 3.5 0 0 0 2.555-1.41L90.744 67.63a3.5 3.5 0 0 0-2.812-5.58L12.074 62z"></path>
+                        </g>
+                    </svg>
+                </button>
+                <button id="lRotate" class="toolbar-btn btn btn-outline-secondary rounded-0 mx-1" title="rotate left" type="button">
+                    <svg width="21" height="21" fill="currentColor" class="rotateLeft-btn" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z" />
+                        <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466" />
+                    </svg>
+                </button>
+                <button id="rRotate" class="toolbar-btn btn btn-outline-secondary rounded-0 mx-1" title="rotate right" type="button">
+                    <svg width="21" height="21" fill="currentColor" class="rotateRight-btn" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z" />
+                        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" />
+                    </svg>
+                </button>
+                <button id="multiSeries" class="toolbar-btn btn btn-outline-secondary rounded-0 mx-1" title="multi Series" type="button">
+                    <svg width="24" height="24" fill="currentColor" class="multiSeries-btn" viewBox="0 0 256 256">
+                        <path d="M120,48v64a7.9954,7.9954,0,0,1-8,8H48a7.99539,7.99539,0,0,1-8-8V48a7.99539,7.99539,0,0,1,8-8h64A7.9954,7.9954,0,0,1,120,48Zm88-8H144a7.99539,7.99539,0,0,0-8,8v64a7.99539,7.99539,0,0,0,8,8h64a7.9954,7.9954,0,0,0,8-8V48A7.9954,7.9954,0,0,0,208,40Zm-96,96H48a7.99539,7.99539,0,0,0-8,8v64a7.99539,7.99539,0,0,0,8,8h64a7.9954,7.9954,0,0,0,8-8V144A7.9954,7.9954,0,0,0,112,136Zm96,0H144a7.99539,7.99539,0,0,0-8,8v64a7.99539,7.99539,0,0,0,8,8h64a7.9954,7.9954,0,0,0,8-8V144A7.9954,7.9954,0,0,0,208,136Z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
         <div class="dicom-tumbnail">
             <div class="active tumbnail-item">
                 <img id="item1" class="tumbnail-image" src="~/Content/Img/series/tmb/SR001.jpg" />
             </div>
             <div class="tumbnail-item">
-                <img class="tumbnail-image" src="~/Content/Img/series/tmb/SR004.jpg" />
+                <img id="item2" class="tumbnail-image" src="~/Content/Img/series/tmb/SR004.jpg" />
+            </div>
+            <div class="tumbnail-item">
+                <img class="tumbnail-image" src="~/Content/Img/series/tmb/SR005.jpg" />
+            </div>
+            <div class="tumbnail-item">
+                <img class="tumbnail-image" src="~/Content/Img/series/tmb/SR006.jpg" />
             </div>
         </div>
         <div class="dicom-container" data-files="@ViewBag.Files">
-            <div style="width:100%;height:100%;position:relative;color: white;display:inline-block;border-style:solid;border-color:black;" oncontextmenu="return false" class="disable-selection noIbar" unselectable="on" onselectstart="return false;" onmousedown="return false;">
-                <div id="dicomImage" style="width:100%;height:100%"> </div>
+            <div style="width:100%;height:100%;position:relative;color: white;display:flex;border-style:solid;border-color:black;" oncontextmenu="return false" class="disable-selection noIbar" unselectable="on" onselectstart="return false;" onmousedown="return false;">
+                <div id="dicomImage" style="width:100%;height:100%;position:relative">
+                    <div class="top-left-details text-white">
+                        <span class="h3 fw-bold" id="PatientName"></span>
+                        <span>
+                            <span>ID: </span><span class="fw-bold" id="PatientID"></span>
+                        </span>
+                        <span>
+                            <span>Age: </span><span class="fw-bold" id="PatientAge"></span>
+                        </span>
+                    </div>
+                    <div class="bottom-left-details text-white">
+                        <span>
+                            <span>Thk: </span><span class="fw-bold" id="Thk"></span>
+                        </span>
+                        <span>
+                            <span>Size: </span><span class="fw-bold" id="rows"></span>,<span class="fw-bold" id="columns"></span>
+                        </span>
+                        <span>
+                            <span>Scale: </span><span class="fw-bold" id="Scale"></span>
+                        </span>
+                        <span>
+                            <span>W: </span><span class="fw-bold" id="WW"></span>&nbsp;&nbsp;<span>L: </span><span class="fw-bold" id="WL"></span>
+                        </span>
+                    </div>
+                    <div class="top-right-details text-white">
+                        <span>
+                            <span>Frame: </span><span class="fw-bold" id="FrameNum"></span>
+                        </span>
+                        <span>
+                            <span>Date: </span><span class="fw-bold" id="Date"></span>
+                        </span>
+                        <span>
+                            <span>Time: </span><span class="fw-bold" id="Time"></span>
+                        </span>
+                        <span class="fw-bold" id="ImageType"></span>
+                    </div>
+                    <div class="right-details">
+                        <input class="range-slider" type="range" min="0" max="100" value="0" />
+                    </div>
+                    <div class="bottom-right-details text-white">
+                        <span>
+                            <span id="InstitutionName"></span>
+                        </span>
+                    </div>
+                </div>
+                @*second*@
+                <div id="dicomImage2" style="width:50%;height:100%;position:relative;display:none">
+                    @*<div class="top-left-details text-white">
+                            <span class="h3 fw-bold" id="PatientName"></span>
+                            <span>
+                                <span>ID: </span><span class="fw-bold" id="PatientID"></span>
+                            </span>
+                            <span>
+                                <span>Age: </span><span class="fw-bold" id="PatientAge"></span>
+                            </span>
+                        </div>
+                        <div class="bottom-left-details text-white">
+                            <span>
+                                <span>Thk: </span><span class="fw-bold" id="Thk"></span>
+                            </span>
+                            <span>
+                                <span>Size: </span><span class="fw-bold" id="rows"></span>,<span class="fw-bold" id="columns"></span>
+                            </span>
+                            <span>
+                                <span>Scale: </span><span class="fw-bold" id="Scale"></span>
+                            </span>
+                            <span>
+                                <span>W: </span><span class="fw-bold" id="WW"></span>&nbsp;&nbsp;<span>L: </span><span class="fw-bold" id="WL"></span>
+                            </span>
+                        </div>
+                        <div class="top-right-details text-white">
+                            <span>
+                                <span>Frame: </span><span class="fw-bold" id="FrameNum"></span>
+                            </span>
+                            <span>
+                                <span>Date: </span><span class="fw-bold" id="Date"></span>
+                            </span>
+                            <span>
+                                <span>Time: </span><span class="fw-bold" id="Time"></span>
+                            </span>
+                            <span class="fw-bold" id="ImageType"></span>
+                        </div>
+                        <div class="right-details">
+                            <input class="range-slider" type="range" min="0" max="100" value="0" />
+                        </div>
+                        <div class="bottom-right-details text-white">
+                            <span>
+                                <span id="InstitutionName"></span>
+                            </span>
+                        </div>*@
+                </div>
             </div>
-            <div class="top-left-details text-white">
-                <span class="h3 fw-bold" id="PatientName"></span>
-                <span>
-                    <span>ID: </span><span class="fw-bold" id="PatientID"></span>
-                </span>
-                <span>
-                    <span>Age: </span><span class="fw-bold" id="PatientAge"></span>
-                </span>
-                <!--<span>Image Type: </span><span id="ImageType"></span><br>
-                <span>Operator's Name: </span><span id="OperatorName"></span><br>
-                <span>Patient Gender: </span><span id="PatientSex"></span><br>
-                <span>Institution Name: </span><span id="InstitutionName"></span><br>-->
-                @*<span>Number Of Frames: </span><span id="numberOfFrames"></span><br>
-                    <span>Planar Configuration: </span><span id="planarConfiguration"></span><br>
-                    <span>Rows: </span><span id="rows"></span><br>
-                    <span>Columns: </span><span id="columns"></span><br>
-                    <span>Pixel Spacing: </span><span id="pixelSpacing"></span><br>
-                    <span>Row Pixel Spacing: </span><span id="rowPixelSpacing"></span><br>
-                    <span>Column Pixel Spacing: </span><span id="columnPixelSpacing"></span><br>
-                    <span>Bits Allocated: </span><span id="bitsAllocated"></span><br>
-                    <span>Bits Stored: </span><span id="bitsStored"></span><br>
-                    <span>High Bit: </span><span id="highBit"></span><br>
-                    <span>Pixel Representation: </span><span id="pixelRepresentation"></span><br>
-                    <span>WindowCenter: </span><span id="windowCenter"></span><br>
-                    <span>WindowWidth: </span><span id="windowWidth"></span><br>
-                    <span>RescaleIntercept: </span><span id="rescaleIntercept"></span><br>
-                    <span>RescaleSlope: </span><span id="rescaleSlope"></span><br>
-                    <span>Basic Offset Table Entries: </span><span id="basicOffsetTable"></span><br>
-                    <span>Fragments: </span><span id="fragments"></span><br>
-                    <span>Max Stored Pixel Value: </span><span id="minStoredPixelValue"></span><br>
-                    <span>Min Stored Pixel Value: </span><span id="maxStoredPixelValue"></span><br>*@
-                <!--<span>Total Time: </span><span id="totalTime"></span><br>
-                <span>Load Time: </span><span id="loadTime"></span><br>
-                <span>Decode Time: </span><span id="decodeTime"></span><br>-->
-            </div>
-            <div class="bottom-left-details text-white">
-                <span>
-                    <span>Thk: </span><span class="fw-bold" id="Thk"></span>
-                </span>
-                <span>
-                    <span>Size: </span><span class="fw-bold" id="rows"></span>,<span class="fw-bold" id="columns"></span>
-                </span>
-                <span>
-                    <span>Scale: </span><span class="fw-bold" id="Scale"></span>
-                </span>
-                <span>
-                    <span>W: </span><span class="fw-bold" id="WW"></span>&nbsp;&nbsp;<span>L: </span><span class="fw-bold" id="WL"></span>
-                </span>
-            </div>
-            <div class="top-right-details text-white">
-                <span>
-                    <span>Frame: </span><span class="fw-bold" id="FrameNum"></span>
-                </span>
-                <span>
-                    <span>Date: </span><span class="fw-bold" id="Date"></span>
-                </span>
-                <span>
-                    <span>Time: </span><span class="fw-bold" id="Time"></span>
-                </span>
-               <span class="fw-bold" id="ImageType"></span>
-            </div>
-            <div class="right-details">
-                <input class="range-slider" type="range" min="0" max="100" value="0" />
-            </div>
-            <div class="bottom-right-details text-white">
-                <span>
-                    <span id="InstitutionName"></span>
-                </span>
-            </div>
+
+
         </div>
     </div>
     <script>
-
         cornerstoneWADOImageLoader.external.cornerstone = cornerstone;
 
         //// this function gets called once the user drops the file onto the div
@@ -143,69 +227,39 @@
         //    },
         //});
         //let path = document.querySelector(".dicom-container").dataset.path
+        const element = document.getElementById('dicomImage');
+        const element2 = document.getElementById('dicomImage2');
         let Files = JSON.parse(document.querySelector(".dicom-container").dataset.files)
+        let Files2 = []
         let path1 = document.querySelector("#item1").src
-        path1 = path1.replace(".jpg", "/")
-        path1 = path1.replace("/tmb", "")
-        path1 = path1.concat(Files[0])
+        let imageId = changePathToImageID(path1)
         console.log(path1)
         let baseUrl = document.querySelector(".dicom-container").dataset.baseurl
         let loaded = false;
         //let imageId = "wadouri:" + window.location.origin + "/" + path;
-        let imageId = "wadouri:" + path1;
+        /*  let imageId = "wadouri:" + path1;*/
         console.log(imageId)
-        loadAndViewImage(imageId)
-
-        function loadAndViewImage(imageId) {
-            const element = document.getElementById('dicomImage');
-            const start = new Date().getTime();
+        loadAndViewImage(imageId, element)
+        function loadAndViewImage(imageId, element) {
+            //const element = document.getElementById('dicomImage');
             cornerstone.loadImage(imageId).then(function (image) {
                 console.log(image);
                 const viewport = cornerstone.getDefaultViewportForImage(element, image);
-                //document.getElementById('toggleModalityLUT').checked = (viewport.modalityLUT !== undefined);
-                //document.getElementById('toggleVOILUT').checked = (viewport.voiLUT !== undefined);
                 cornerstone.displayImage(element, image, viewport);
                 if (loaded === false) {
                     cornerstoneTools.mouseInput.enable(element);
                     cornerstoneTools.mouseWheelInput.enable(element);
-                    cornerstoneTools.wwwc.activate(element, 1); // ww/wc is the default tool for left mouse button
-                    cornerstoneTools.pan.activate(element, 2); // pan is the default tool for middle mouse button
-                    cornerstoneTools.zoom.activate(element, 4); // zoom is the default tool for right mouse button
+                    //cornerstoneTools.wwwc.activate(element, 1); // ww/wc is the default tool for left mouse button
+                    //cornerstoneTools.pan.activate(element, 2); // pan is the default tool for middle mouse button
+                    //cornerstoneTools.zoom.activate(element, 4); // zoom is the default tool for right mouse button
                     //cornerstoneTools.zoomWheel.activate(element); // zoom is the default tool for middle mouse wheel
 
                     //cornerstoneTools.imageStats.enable(element);
                     loaded = true;
                 }
 
-                function getTransferSyntax() {
-                    const value = image.data.string('x00020010');
-                    return value + ' [' + uids[value] + ']';
-                }
-
-                function getSopClass() {
-                    const value = image.data.string('x00080016');
-                    return value + ' [' + uids[value] + ']';
-                }
-
-                function getPixelRepresentation() {
-                    const value = image.data.uint16('x00280103');
-                    if (value === undefined) {
-                        return;
-                    }
-                    return value + (value === 0 ? ' (unsigned)' : ' (signed)');
-                }
-
-                function getPlanarConfiguration() {
-                    const value = image.data.uint16('x00280006');
-                    if (value === undefined) {
-                        return;
-                    }
-                    return value + (value === 0 ? ' (pixel)' : ' (plane)');
-                }
-
                 function onImageRendered(e) {
                     const eventData = e.detail;
-
                     // set the canvas context to the image coordinate system
                     cornerstone.setToPixelCoordinateSystem(eventData.enabledElement, eventData.canvasContext);
                     //document.getElementById('topright').textContent = "Render Time:" + eventData.renderTimeInMs + " ms";
@@ -216,57 +270,91 @@
                 }
                 element.addEventListener('cornerstoneimagerendered', onImageRendered);
 
-                //document.getElementById('transferSyntax').textContent = getTransferSyntax();
-                //document.getElementById('sopClass').textContent = getSopClass();
-                //document.getElementById('samplesPerPixel').textContent = image.data.uint16('x00280002');
-                //document.getElementById('photometricInterpretation').textContent = image.data.string('x00280004');
                 let dateUnFormated = image.data.string('x00080012')
                 let dateFormated = `${dateUnFormated.slice(0, 4)}/${dateUnFormated.slice(4, 6)}/${dateUnFormated.slice(6, 8)}`
                 document.getElementById('Date').textContent = dateFormated;
                 document.getElementById('Time').textContent = image.data.string('x00080013');
-
                 document.getElementById('ImageType').textContent = image.data.string('x00280008');
-
                 document.getElementById('InstitutionName').textContent = image.data.string('x00080080');
-                //document.getElementById('OperatorName').textContent = image.data.string('x00081070');
                 document.getElementById('PatientName').textContent = image.data.string('x00100010').replace("^", " ");
                 document.getElementById('PatientID').textContent = image.data.string('x00100020');
-                //document.getElementById('Date').textContent = image.data.string('x000800012');
                 document.getElementById('PatientAge').textContent = image.data.string('x00101010');
                 document.getElementById('Thk').textContent = image.data.string('x00180050').concat("mm");
-                /*    document.getElementById('PatientSex').textContent = image.data.string('x00100040');*/
-                //document.getElementById('numberOfFrames').textContent = image.data.string('x00280008');
-                //document.getElementById('planarConfiguration').textContent = getPlanarConfiguration();
                 document.getElementById('rows').textContent = image.data.uint16('x00280010');
                 document.getElementById('columns').textContent = image.data.uint16('x00280011');
                 document.getElementById('FrameNum').textContent = `${getCurrentIndex() + 1} / ${Files.length}`
-                //document.getElementById('pixelSpacing').textContent = image.data.string('x00280030');
-                //document.getElementById('bitsAllocated').textContent = image.data.uint16('x00280100');
-                //document.getElementById('bitsStored').textContent = image.data.uint16('x00280101');
-                //document.getElementById('highBit').textContent = image.data.uint16('x00280102');
-                //document.getElementById('pixelRepresentation').textContent = getPixelRepresentation();
-                //document.getElementById('windowCenter').textContent = image.data.string('x00281050');
-                //document.getElementById('windowWidth').textContent = image.data.string('x00281051');
-                //document.getElementById('rescaleIntercept').textContent = image.data.string('x00281052');
-                //document.getElementById('rescaleSlope').textContent = image.data.string('x00281053');
-                //document.getElementById('basicOffsetTable').textContent = image.data.elements.x7fe00010 && image.data.elements.x7fe00010.basicOffsetTable ? image.data.elements.x7fe00010.basicOffsetTable.length : '';
-                //document.getElementById('fragments').textContent = image.data.elements.x7fe00010 && image.data.elements.x7fe00010.fragments ? image.data.elements.x7fe00010.fragments.length : '';
-                //document.getElementById('minStoredPixelValue').textContent = image.minPixelValue;
-                //document.getElementById('maxStoredPixelValue').textContent = image.maxPixelValue;
-                const end = new Date().getTime();
-                const time = end - start;
-                //document.getElementById('totalTime').textContent = time + "ms";
-                //document.getElementById('loadTime').textContent = image.loadTimeInMS + "ms";
-                //document.getElementById('decodeTime').textContent = image.decodeTimeInMS + "ms";
-
             }, function (err) {
                 alert(err);
             });
         }
-        const element = document.getElementById('dicomImage');
+        // Add event handlers to flip or rotate the image
+        document.getElementById('pan').addEventListener('click', function (e) {
+            this.classList.toggle("active")
+            if (this.classList.contains('active')) {
+                cornerstoneTools.pan.activate(element, 1);
+            } else {
+                cornerstoneTools.pan.deactivate(element, 1);
+            }
+        });
+        document.getElementById('hFlip').addEventListener('click', function (e) {
+            this.classList.toggle("active")
+            const viewport = cornerstone.getViewport(element);
+            viewport.hflip = !viewport.hflip;
+            cornerstone.setViewport(element, viewport);
+        });
+
+        document.getElementById('vFlip').addEventListener('click', function (e) {
+            this.classList.toggle("active")
+            const viewport = cornerstone.getViewport(element);
+            viewport.vflip = !viewport.vflip;
+            cornerstone.setViewport(element, viewport);
+        });
+
+        document.getElementById('lRotate').addEventListener('click', function (e) {
+            const viewport = cornerstone.getViewport(element);
+            viewport.rotation -= 90;
+            cornerstone.setViewport(element, viewport);
+        });
+
+        document.getElementById('rRotate').addEventListener('click', function (e) {
+            const viewport = cornerstone.getViewport(element);
+            viewport.rotation += 90;
+            cornerstone.setViewport(element, viewport);
+        });
+        // Add event handlers to zoom the image in and out
+        document.getElementById('zoom').addEventListener('click', function (e) {
+            this.classList.toggle("active")
+            this.classList.toggle('is-active')
+            if (this.classList.contains('is-active')) {
+                cornerstoneTools.zoom.activate(element, 1); // zoom is the default tool for right mouse button
+                cornerstoneTools.zoomWheel.activate(element); // zoom is the default tool for middle mouse wheel
+            } else {
+                cornerstoneTools.zoom.deactivate(element, 1); // zoom is the default tool for right mouse button
+                cornerstoneTools.zoomWheel.deactivate(element); // zoom is the default tool for middle mouse wheel
+            }
+            //const viewport = cornerstone.getViewport(element);
+            //viewport.scale += 0.25;
+            //cornerstone.setViewport(element, viewport);
+        });
+        document.getElementById('wwwc').addEventListener('click', function (e) {
+            this.classList.toggle("active")
+            this.classList.toggle('is-active')
+            if (this.classList.contains('is-active')) {
+                cornerstoneTools.wwwc.activate(element, 1); // ww/wc is the default tool for left mouse button
+            } else {
+                cornerstoneTools.wwwc.deactivate(element, 1); // ww/wc is the default tool for left mouse button
+            }
+        });
+
+
+        document.getElementById('reset').addEventListener('click', function (e) {
+            cornerstone.reset(element);
+        });
+
+
         cornerstone.enable(element);
 
-      
+
         let StaticPath
         function getCurrentIndex() {
             const currentSrc = path1.split('/').pop(); // Extract filename from src
@@ -279,11 +367,12 @@
             if (index >= 0 && index < Files.length) {
                 path1 = StaticPath + Files[index]
                 imageId = "wadouri:" + path1;
-                loadAndViewImage(imageId)
+                loadAndViewImage(imageId, element)
             }
         }
-        const step = 100 / (Files.length - 1)
+
         let rangeSlider = document.querySelector(".range-slider")
+        let step = 100 / (Files.length - 1)
         rangeSlider.step = step
         element.addEventListener("wheel", function (event) {
             event.preventDefault()
@@ -314,13 +403,13 @@
             let indexOfFiles = Math.floor(this.value / step)
             updateImage(indexOfFiles)
         })
-
-        ////on click series
-        //document.querySelectorAll(".tumbnail-image").forEach(imageItem => imageItem.addEventListener("click", function (event) {
-        //    console.log(document.querySelectorAll(".tumbnail-item"))
-        //    document.querySelectorAll(".tumbnail-item").forEach(item => item.classList.remove("active"))
-        //    imageItem.parentNode.classList.add("active")
-        //}))
+        function changePathToImageID(path) {
+            path = path.replace(".jpg", "/")
+            path = path.replace("/tmb", "")
+            path1 = path.concat(Files[0])
+            let Id = "wadouri:" + path1;
+            return Id
+        }
 
         //cornerstone.events.addEventListener('cornerstoneimageloadprogress', function (event) {
         //    const eventData = event.detail;
@@ -334,7 +423,8 @@
                 if ($(this).parent().is(".active")) return
                 $(".tumbnail-item").removeClass("active")
                 $(this).parent().addClass("active")
-                let folderOfDicom = $(this).prop("src").replace(".jpg", "")
+                let imageSrc = $(this).prop("src")
+                let folderOfDicom = imageSrc.replace(".jpg", "")
                 folderOfDicom = folderOfDicom.split("/").pop()
                 $.ajax({
                     method: "POST",
@@ -344,12 +434,62 @@
                     },
                     success: function (response) {
                         if (response.successMsg) {
-                            alert(response.successMsg)
+                            rangeSlider.value = 0
+                            Files = JSON.parse(response.successMsg)
+                            step = 100 / (Files.length - 1)
+                            rangeSlider.step = step
+                            path1 = imageSrc
+                            let ImageID = changePathToImageID(path1)
+                           loadAndViewImage(ImageID , element)
                         } else {
                             alert(response.errorMsg)
                         }
                     }
-                })                
+                })
+
+            })
+
+            $("#multiSeries").on("click", function () {
+                $(this).toggleClass("active")
+                //let image = cornerstone.getImage($("#dicomImage"))
+                if ($(this).is(".active")) {
+                    $("#dicomImage").css("width", "50%")
+                    cornerstone.resize(element, true)
+                    $("#dicomImage2").show()
+                    //Ajax
+                    $(this).parent().addClass("active")
+                    let imageSrc = $(".tumbnail-item:nth-of-type(2)").find("img").prop("src")
+                    console.log(imageSrc)
+                    let folderOfDicom = imageSrc.replace(".jpg", "")
+                    folderOfDicom = folderOfDicom.split("/").pop()
+                    $.ajax({
+                        method: "POST",
+                        url: "@Url.Action("Dicom")",
+                        data: {
+                                folderOfDicom : folderOfDicom
+                        },
+                        success: function (response) {
+                        if (response.successMsg) {
+                        Files2 = JSON.parse(response.successMsg)
+                        //step = 100 / (Files.length - 1)
+                            //rangeSlider.step = step
+                            imageSrc = imageSrc.replace(".jpg", "/")
+                            imageSrc = imageSrc.replace("/tmb", "")
+                            path2 = imageSrc.concat(Files2[0])
+                            let imageId2 = "wadouri:" + path2;
+
+                            loadAndViewImage(imageId2, element2)
+                            cornerstone.enable(element2);
+                        } else {
+                            alert(response.errorMsg)
+                        }
+                        }
+                    })
+                } else {
+                    $("#dicomImage").css("width", "100%")
+                    $("#dicomImage2").hide()
+                    cornerstone.resize(element, true)
+                }
 
             })
         })
