@@ -40,7 +40,13 @@
     left: 180px;
     width: calc(100% - 180px);
     height: calc(100% - 140px);
-    border: 1px solid rgb(255, 216, 0);
+
+}
+.dicom-frame {
+    border: 1px solid #c3c3c3
+}
+.dicom-container .active{
+    border: 1px solid rgb(255, 216, 0)
 }
 .top-left-details {
     display : flex ;
@@ -75,8 +81,8 @@
     outline: none;
     -webkit-appearance: none;
     position: absolute;
-    width: 500px;
-    height: 5px;
+    width: 400px;
+    height: 2px;
     transform: translate(-50%, -50%) rotate(90deg);
     background-color: #c3c3c3
 }
@@ -84,7 +90,7 @@
         -webkit-appearance: none;
         appearance: none;
         width: 15px;
-        height: 30px;
+        height: 24px;
         border-radius: 10px;
         background-color: rgb(255, 216, 0)
     }

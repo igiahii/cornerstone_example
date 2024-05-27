@@ -36,6 +36,11 @@
                         <path fill-rule="evenodd" d="M7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10M.146 8.354a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L1.707 7.5H5.5a.5.5 0 0 1 0 1H1.707l1.147 1.146a.5.5 0 0 1-.708.708zM10 8a.5.5 0 0 1 .5-.5h3.793l-1.147-1.146a.5.5 0 0 1 .708-.708l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L14.293 8.5H10.5A.5.5 0 0 1 10 8" />
                     </svg>
                 </button>
+                <button id="invert" class="toolbar-btn btn btn-outline-secondary rounded-0 mx-1" title="invert" type="button">
+                    <svg width="22" height="22" fill="currentColor" class="invert-btn" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 0 8 1zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16" />
+                    </svg>
+                </button>
                 <button id="wwwc" class="toolbar-btn btn btn-outline-secondary rounded-0 mx-1" title="window level" type="button">
                     <svg width="22" height="22" fill="currentColor" class="wwwc-btn" viewBox="0 0 16 16">
                         <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
@@ -95,97 +100,97 @@
         </div>
         <div class="dicom-container" data-files="@ViewBag.Files">
             <div style="width:100%;height:100%;position:relative;color: white;display:flex;border-style:solid;border-color:black;" oncontextmenu="return false" class="disable-selection noIbar" unselectable="on" onselectstart="return false;" onmousedown="return false;">
-                <div id="dicomImage" style="width:100%;height:100%;position:relative">
+                <div id="dicomImage" class="dicom-frame active" style="width:100%;height:100%;position:relative">
                     <div class="top-left-details text-white">
-                        <span class="h3 fw-bold" id="PatientName"></span>
+                        <span class="h3 fw-bold PatientName" id=""></span>
                         <span>
-                            <span>ID: </span><span class="fw-bold" id="PatientID"></span>
+                            <span>ID: </span><span class="fw-bold PatientID" id=""></span>
                         </span>
                         <span>
-                            <span>Age: </span><span class="fw-bold" id="PatientAge"></span>
+                            <span>Age: </span><span class="fw-bold PatientAge" id=""></span>
                         </span>
                     </div>
                     <div class="bottom-left-details text-white">
                         <span>
-                            <span>Thk: </span><span class="fw-bold" id="Thk"></span>
+                            <span>Thk: </span><span class="fw-bold Thk" id=""></span>
                         </span>
                         <span>
-                            <span>Size: </span><span class="fw-bold" id="rows"></span>,<span class="fw-bold" id="columns"></span>
+                            <span>Size: </span><span class="fw-bold rows" id=""></span>,<span class="fw-bold columns" id=""></span>
                         </span>
                         <span>
-                            <span>Scale: </span><span class="fw-bold" id="Scale"></span>
+                            <span>Scale: </span><span class="fw-bold Scale" id=""></span>
                         </span>
                         <span>
-                            <span>W: </span><span class="fw-bold" id="WW"></span>&nbsp;&nbsp;<span>L: </span><span class="fw-bold" id="WL"></span>
+                            <span>W: </span><span class="fw-bold WW" id=""></span>&nbsp;&nbsp;<span>L: </span><span class="fw-bold WL" id=""></span>
                         </span>
                     </div>
                     <div class="top-right-details text-white">
                         <span>
-                            <span>Frame: </span><span class="fw-bold" id="FrameNum"></span>
+                            <span>Frame: </span><span class="fw-bold FrameNum" id=""></span>
                         </span>
                         <span>
-                            <span>Date: </span><span class="fw-bold" id="Date"></span>
+                            <span>Date: </span><span class="fw-bold Date" id=""></span>
                         </span>
                         <span>
-                            <span>Time: </span><span class="fw-bold" id="Time"></span>
+                            <span>Time: </span><span class="fw-bold Time" id=""></span>
                         </span>
-                        <span class="fw-bold" id="ImageType"></span>
+                        <span class="fw-bold ImageType" id=""></span>
                     </div>
                     <div class="right-details">
                         <input class="range-slider" type="range" min="0" max="100" value="0" />
                     </div>
                     <div class="bottom-right-details text-white">
                         <span>
-                            <span id="InstitutionName"></span>
+                            <span class="fw-bold InstitutionName" id=""></span>
                         </span>
                     </div>
                 </div>
                 @*second*@
-                <div id="dicomImage2" style="width:50%;height:100%;position:relative;display:none">
-                    @*<div class="top-left-details text-white">
-                            <span class="h3 fw-bold" id="PatientName"></span>
-                            <span>
-                                <span>ID: </span><span class="fw-bold" id="PatientID"></span>
-                            </span>
-                            <span>
-                                <span>Age: </span><span class="fw-bold" id="PatientAge"></span>
-                            </span>
-                        </div>
-                        <div class="bottom-left-details text-white">
-                            <span>
-                                <span>Thk: </span><span class="fw-bold" id="Thk"></span>
-                            </span>
-                            <span>
-                                <span>Size: </span><span class="fw-bold" id="rows"></span>,<span class="fw-bold" id="columns"></span>
-                            </span>
-                            <span>
-                                <span>Scale: </span><span class="fw-bold" id="Scale"></span>
-                            </span>
-                            <span>
-                                <span>W: </span><span class="fw-bold" id="WW"></span>&nbsp;&nbsp;<span>L: </span><span class="fw-bold" id="WL"></span>
-                            </span>
-                        </div>
-                        <div class="top-right-details text-white">
-                            <span>
-                                <span>Frame: </span><span class="fw-bold" id="FrameNum"></span>
-                            </span>
-                            <span>
-                                <span>Date: </span><span class="fw-bold" id="Date"></span>
-                            </span>
-                            <span>
-                                <span>Time: </span><span class="fw-bold" id="Time"></span>
-                            </span>
-                            <span class="fw-bold" id="ImageType"></span>
-                        </div>
-                        <div class="right-details">
-                            <input class="range-slider" type="range" min="0" max="100" value="0" />
-                        </div>
-                        <div class="bottom-right-details text-white">
-                            <span>
-                                <span id="InstitutionName"></span>
-                            </span>
-                        </div>*@
+            <div id="dicomImage2" class="dicom-frame" style="width:50%;height:100%;position:relative;display:none">
+                <div class="top-left-details text-white">
+                    <span class="h3 fw-bold PatientName" id=""></span>
+                    <span>
+                        <span>ID: </span><span class="fw-bold PatientID" id=""></span>
+                    </span>
+                    <span>
+                        <span>Age: </span><span class="fw-bold PatientAge" id=""></span>
+                    </span>
                 </div>
+                <div class="bottom-left-details text-white">
+                    <span>
+                        <span>Thk: </span><span class="fw-bold Thk" id=""></span>
+                    </span>
+                    <span>
+                        <span>Size: </span><span class="fw-bold rows" id=""></span>,<span class="fw-bold columns" id=""></span>
+                    </span>
+                    <span>
+                        <span>Scale: </span><span class="fw-bold Scale" id=""></span>
+                    </span>
+                    <span>
+                        <span>W: </span><span class="fw-bold WW" id=""></span>&nbsp;&nbsp;<span>L: </span><span class="fw-bold WL" id=""></span>
+                    </span>
+                </div>
+                <div class="top-right-details text-white">
+                    <span>
+                        <span>Frame: </span><span class="fw-bold FrameNum" id=""></span>
+                    </span>
+                    <span>
+                        <span>Date: </span><span class="fw-bold Date" id=""></span>
+                    </span>
+                    <span>
+                        <span>Time: </span><span class="fw-bold Time" id=""></span>
+                    </span>
+                    <span class="fw-bold ImageType" id=""></span>
+                </div>
+                <div class="right-details">
+                    <input class="range-slider" type="range" min="0" max="100" value="0" />
+                </div>
+                <div class="bottom-right-details text-white">
+                    <span>
+                        <span class="fw-bold InstitutionName" id=""></span>
+                    </span>
+                </div>
+            </div>
             </div>
 
 
@@ -227,7 +232,7 @@
         //    },
         //});
         //let path = document.querySelector(".dicom-container").dataset.path
-        const element = document.getElementById('dicomImage');
+        const element1 = document.getElementById('dicomImage');
         const element2 = document.getElementById('dicomImage2');
         let Files = JSON.parse(document.querySelector(".dicom-container").dataset.files)
         let Files2 = []
@@ -239,7 +244,10 @@
         //let imageId = "wadouri:" + window.location.origin + "/" + path;
         /*  let imageId = "wadouri:" + path1;*/
         console.log(imageId)
-        loadAndViewImage(imageId, element)
+        loadAndViewImage(imageId, element1)
+
+        // Init CornerstoneTools
+ 
         function loadAndViewImage(imageId, element) {
             //const element = document.getElementById('dicomImage');
             cornerstone.loadImage(imageId).then(function (image) {
@@ -247,6 +255,9 @@
                 const viewport = cornerstone.getDefaultViewportForImage(element, image);
                 cornerstone.displayImage(element, image, viewport);
                 if (loaded === false) {
+                    //cornerstoneTools.init({
+                    //    globalToolSyncEnabled: true,
+                    //});
                     cornerstoneTools.mouseInput.enable(element);
                     cornerstoneTools.mouseWheelInput.enable(element);
                     //cornerstoneTools.wwwc.activate(element, 1); // ww/wc is the default tool for left mouse button
@@ -263,96 +274,131 @@
                     // set the canvas context to the image coordinate system
                     cornerstone.setToPixelCoordinateSystem(eventData.enabledElement, eventData.canvasContext);
                     //document.getElementById('topright').textContent = "Render Time:" + eventData.renderTimeInMs + " ms";
-                    document.getElementById('WW').textContent = Math.round(eventData.viewport.voi.windowWidth);
-                    document.getElementById('WL').textContent = Math.round(eventData.viewport.voi.windowCenter);
-                    document.getElementById('Scale').textContent = + eventData.viewport.scale.toFixed(2);
+                    element.querySelector('.WW').textContent = Math.round(eventData.viewport.voi.windowWidth);
+                    element.querySelector('.WL').textContent = Math.round(eventData.viewport.voi.windowCenter);
+                    element.querySelector('.Scale').textContent = + eventData.viewport.scale.toFixed(2);
 
                 }
                 element.addEventListener('cornerstoneimagerendered', onImageRendered);
 
                 let dateUnFormated = image.data.string('x00080012')
                 let dateFormated = `${dateUnFormated.slice(0, 4)}/${dateUnFormated.slice(4, 6)}/${dateUnFormated.slice(6, 8)}`
-                document.getElementById('Date').textContent = dateFormated;
-                document.getElementById('Time').textContent = image.data.string('x00080013');
-                document.getElementById('ImageType').textContent = image.data.string('x00280008');
-                document.getElementById('InstitutionName').textContent = image.data.string('x00080080');
-                document.getElementById('PatientName').textContent = image.data.string('x00100010').replace("^", " ");
-                document.getElementById('PatientID').textContent = image.data.string('x00100020');
-                document.getElementById('PatientAge').textContent = image.data.string('x00101010');
-                document.getElementById('Thk').textContent = image.data.string('x00180050').concat("mm");
-                document.getElementById('rows').textContent = image.data.uint16('x00280010');
-                document.getElementById('columns').textContent = image.data.uint16('x00280011');
-                document.getElementById('FrameNum').textContent = `${getCurrentIndex() + 1} / ${Files.length}`
+                element.querySelector('.Date').textContent = dateFormated;
+                element.querySelector('.Time').textContent = image.data.string('x00080013');
+                element.querySelector('.ImageType').textContent = image.data.string('x00280008');
+                element.querySelector('.InstitutionName').textContent = image.data.string('x00080080');
+                element.querySelector('.PatientName').textContent = image.data.string('x00100010').replace("^", " ");
+                element.querySelector('.PatientID').textContent = image.data.string('x00100020');
+                element.querySelector('.PatientAge').textContent = image.data.string('x00101010');
+                element.querySelector('.Thk').textContent = image.data.string('x00180050').concat("mm");
+                element.querySelector('.rows').textContent = image.data.uint16('x00280010');
+                element.querySelector('.columns').textContent = image.data.uint16('x00280011');
+                if (element == element1) {
+                    element.querySelector('.FrameNum').textContent = `${getCurrentIndex() + 1} / ${Files.length}`
+                } else {
+                    element.querySelector('.FrameNum').textContent = `${getCurrentIndex() + 1} / ${Files2.length}`
+                }
             }, function (err) {
                 alert(err);
             });
         }
+        //Add event handlers to specific dicom image
+        let selectedElm = element1
+        document.querySelectorAll(".dicom-frame").forEach(function (elm) {
+            elm.addEventListener("click", function (event) {
+                event.preventDefault()
+                if (!elm.classList.contains("active")) {
+                    document.querySelectorAll(".dicom-frame").forEach(elm => elm.classList.remove("active"))
+                    elm.classList.add("active")
+                }
+                selectedElm = elm
+                document.querySelectorAll(".tumbnail-image").forEach(function (image) {
+                    image.parentNode.classList.remove("active")
+                    let folderOfDicom = image.src.replace(".jpg", "")
+                    folderOfDicom = folderOfDicom.split("/").pop()
+                    console.log(elm.getAttribute("data-folder"))
+                    if (folderOfDicom == elm.getAttribute("data-folder")) {
+                        image.parentNode.classList.add("active")
+                    }
+                })
+                cornerstoneTools.mouseInput.enable(selectedElm);
+                cornerstoneTools.mouseWheelInput.enable(selectedElm);
+            })
+        })
+
         // Add event handlers to flip or rotate the image
+
         document.getElementById('pan').addEventListener('click', function (e) {
             this.classList.toggle("active")
             if (this.classList.contains('active')) {
-                cornerstoneTools.pan.activate(element, 1);
+                cornerstoneTools.pan.activate(selectedElm, 1);
             } else {
-                cornerstoneTools.pan.deactivate(element, 1);
+                cornerstoneTools.pan.deactivate(selectedElm, 1);
             }
+        });
+        document.getElementById('invert').addEventListener('click', function (e) {
+            this.classList.toggle("active")
+            const viewport = cornerstone.getViewport(selectedElm);
+            viewport.invert = !viewport.invert;
+            cornerstone.setViewport(selectedElm, viewport);
         });
         document.getElementById('hFlip').addEventListener('click', function (e) {
             this.classList.toggle("active")
-            const viewport = cornerstone.getViewport(element);
+            const viewport = cornerstone.getViewport(selectedElm);
             viewport.hflip = !viewport.hflip;
-            cornerstone.setViewport(element, viewport);
+            cornerstone.setViewport(selectedElm, viewport);
         });
 
         document.getElementById('vFlip').addEventListener('click', function (e) {
             this.classList.toggle("active")
-            const viewport = cornerstone.getViewport(element);
+            const viewport = cornerstone.getViewport(selectedElm);
             viewport.vflip = !viewport.vflip;
-            cornerstone.setViewport(element, viewport);
+            cornerstone.setViewport(selectedElm, viewport);
         });
 
         document.getElementById('lRotate').addEventListener('click', function (e) {
-            const viewport = cornerstone.getViewport(element);
+            const viewport = cornerstone.getViewport(selectedElm);
             viewport.rotation -= 90;
-            cornerstone.setViewport(element, viewport);
+            cornerstone.setViewport(selectedElm, viewport);
         });
 
         document.getElementById('rRotate').addEventListener('click', function (e) {
-            const viewport = cornerstone.getViewport(element);
+            const viewport = cornerstone.getViewport(selectedElm);
             viewport.rotation += 90;
-            cornerstone.setViewport(element, viewport);
+            cornerstone.setViewport(selectedElm, viewport);
         });
         // Add event handlers to zoom the image in and out
         document.getElementById('zoom').addEventListener('click', function (e) {
             this.classList.toggle("active")
             this.classList.toggle('is-active')
             if (this.classList.contains('is-active')) {
-                cornerstoneTools.zoom.activate(element, 1); // zoom is the default tool for right mouse button
-                cornerstoneTools.zoomWheel.activate(element); // zoom is the default tool for middle mouse wheel
+                cornerstoneTools.zoom.activate(selectedElm, 1); // zoom is the default tool for right mouse button
+                cornerstoneTools.zoomWheel.activate(selectedElm); // zoom is the default tool for middle mouse wheel
             } else {
-                cornerstoneTools.zoom.deactivate(element, 1); // zoom is the default tool for right mouse button
-                cornerstoneTools.zoomWheel.deactivate(element); // zoom is the default tool for middle mouse wheel
+                cornerstoneTools.zoom.deactivate(selectedElm, 1); // zoom is the default tool for right mouse button
+                cornerstoneTools.zoomWheel.deactivate(selectedElm); // zoom is the default tool for middle mouse wheel
             }
-            //const viewport = cornerstone.getViewport(element);
+            //const viewport = cornerstone.getViewport(element1);
             //viewport.scale += 0.25;
-            //cornerstone.setViewport(element, viewport);
+            //cornerstone.setViewport(element1, viewport);
         });
         document.getElementById('wwwc').addEventListener('click', function (e) {
             this.classList.toggle("active")
             this.classList.toggle('is-active')
             if (this.classList.contains('is-active')) {
-                cornerstoneTools.wwwc.activate(element, 1); // ww/wc is the default tool for left mouse button
+                cornerstoneTools.wwwc.activate(selectedElm, 1); // ww/wc is the default tool for left mouse button
             } else {
-                cornerstoneTools.wwwc.deactivate(element, 1); // ww/wc is the default tool for left mouse button
+                cornerstoneTools.wwwc.deactivate(selectedElm, 1); // ww/wc is the default tool for left mouse button
             }
         });
 
 
         document.getElementById('reset').addEventListener('click', function (e) {
-            cornerstone.reset(element);
+            cornerstone.reset(selectedElm);
         });
 
 
-        cornerstone.enable(element);
+        cornerstone.enable(selectedElm);
 
 
         let StaticPath
@@ -367,14 +413,14 @@
             if (index >= 0 && index < Files.length) {
                 path1 = StaticPath + Files[index]
                 imageId = "wadouri:" + path1;
-                loadAndViewImage(imageId, element)
+                loadAndViewImage(imageId, element1)
             }
         }
 
-        let rangeSlider = document.querySelector(".range-slider")
+        let rangeSlider = selectedElm.querySelector(".range-slider")
         let step = 100 / (Files.length - 1)
         rangeSlider.step = step
-        element.addEventListener("wheel", function (event) {
+        element1.addEventListener("wheel", function (event) {
             event.preventDefault()
             let currentValue = parseFloat(rangeSlider.value);
             let currentIndex = getCurrentIndex();
@@ -435,12 +481,23 @@
                     success: function (response) {
                         if (response.successMsg) {
                             rangeSlider.value = 0
-                            Files = JSON.parse(response.successMsg)
-                            step = 100 / (Files.length - 1)
+                            if (selectedElm == element1) {
+                                $("#dicomImage").attr("data-folder" , folderOfDicom)
+                                Files = JSON.parse(response.successMsg)
+                                step = 100 / (Files.length - 1)
+                                path1 = imageSrc
+                                let ImageID = changePathToImageID(path1)
+                                loadAndViewImage(ImageID, element1)
+                            } else {
+                                $("#dicomImage2").attr("data-folder", folderOfDicom)
+                                Files2 = JSON.parse(response.successMsg)
+                                imageSrc = imageSrc.replace(".jpg", "/")
+                                imageSrc = imageSrc.replace("/tmb", "")
+                                path2 = imageSrc.concat(Files2[0])
+                                let imageId2 = "wadouri:" + path2;
+                                loadAndViewImage(imageId2, element2)
+                            }
                             rangeSlider.step = step
-                            path1 = imageSrc
-                            let ImageID = changePathToImageID(path1)
-                           loadAndViewImage(ImageID , element)
                         } else {
                             alert(response.errorMsg)
                         }
@@ -454,7 +511,7 @@
                 //let image = cornerstone.getImage($("#dicomImage"))
                 if ($(this).is(".active")) {
                     $("#dicomImage").css("width", "50%")
-                    cornerstone.resize(element, true)
+                    cornerstone.resize(element1, true)
                     $("#dicomImage2").show()
                     //Ajax
                     $(this).parent().addClass("active")
@@ -462,6 +519,7 @@
                     console.log(imageSrc)
                     let folderOfDicom = imageSrc.replace(".jpg", "")
                     folderOfDicom = folderOfDicom.split("/").pop()
+                    $("#dicomImage2").attr("data-folder", folderOfDicom)
                     $.ajax({
                         method: "POST",
                         url: "@Url.Action("Dicom")",
@@ -488,7 +546,7 @@
                 } else {
                     $("#dicomImage").css("width", "100%")
                     $("#dicomImage2").hide()
-                    cornerstone.resize(element, true)
+                    cornerstone.resize(element1, true)
                 }
 
             })
