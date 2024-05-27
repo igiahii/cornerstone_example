@@ -24,6 +24,7 @@
 <body>
     <div class="dicom">
         <div class="dicom-toolbar">
+            <span class="fw-bold text-white loadProgress"></span>
             <div class="toolbar-list">
                 <button id="reset" class="toolbar-btn btn btn-outline-secondary rounded-0 mx-1" title="reset" type="button">
                     <svg width="24" height="24" fill="currentColor" class="reset-btn" viewBox="0 0 16 16">
@@ -86,16 +87,20 @@
         </div>
         <div class="dicom-tumbnail">
             <div class="active tumbnail-item">
-                <img id="item1" class="tumbnail-image" src="~/Content/Img/series/tmb/SR001.jpg" />
+                <img id="item1" class="tumbnail-image" draggable="true" src="~/Content/Img/series/tmb/SR001.jpg" />
+                <p class="tumbnail-serie"></p>
             </div>
             <div class="tumbnail-item">
-                <img id="item2" class="tumbnail-image" src="~/Content/Img/series/tmb/SR004.jpg" />
+                <img id="item2" class="tumbnail-image" draggable="true" src="~/Content/Img/series/tmb/SR004.jpg" />
+                <p class="tumbnail-serie"></p>
             </div>
             <div class="tumbnail-item">
-                <img class="tumbnail-image" src="~/Content/Img/series/tmb/SR005.jpg" />
+                <img class="tumbnail-image" draggable="true" src="~/Content/Img/series/tmb/SR005.jpg" />
+                <p class="tumbnail-serie"></p>
             </div>
             <div class="tumbnail-item">
-                <img class="tumbnail-image" src="~/Content/Img/series/tmb/SR006.jpg" />
+                <img class="tumbnail-image" draggable="true" src="~/Content/Img/series/tmb/SR006.jpg" />
+                <p class="tumbnail-serie"></p>
             </div>
         </div>
         <div class="dicom-container" data-files="@ViewBag.Files">
@@ -146,51 +151,51 @@
                     </div>
                 </div>
                 @*second*@
-            <div id="dicomImage2" class="dicom-frame" style="width:50%;height:100%;position:relative;display:none">
-                <div class="top-left-details text-white">
-                    <span class="h3 fw-bold PatientName" id=""></span>
-                    <span>
-                        <span>ID: </span><span class="fw-bold PatientID" id=""></span>
-                    </span>
-                    <span>
-                        <span>Age: </span><span class="fw-bold PatientAge" id=""></span>
-                    </span>
+                <div id="dicomImage2" class="dicom-frame" style="width:50%;height:100%;position:relative;display:none">
+                    <div class="top-left-details text-white">
+                        <span class="h3 fw-bold PatientName" id=""></span>
+                        <span>
+                            <span>ID: </span><span class="fw-bold PatientID" id=""></span>
+                        </span>
+                        <span>
+                            <span>Age: </span><span class="fw-bold PatientAge" id=""></span>
+                        </span>
+                    </div>
+                    <div class="bottom-left-details text-white">
+                        <span>
+                            <span>Thk: </span><span class="fw-bold Thk" id=""></span>
+                        </span>
+                        <span>
+                            <span>Size: </span><span class="fw-bold rows" id=""></span>,<span class="fw-bold columns" id=""></span>
+                        </span>
+                        <span>
+                            <span>Scale: </span><span class="fw-bold Scale" id=""></span>
+                        </span>
+                        <span>
+                            <span>W: </span><span class="fw-bold WW" id=""></span>&nbsp;&nbsp;<span>L: </span><span class="fw-bold WL" id=""></span>
+                        </span>
+                    </div>
+                    <div class="top-right-details text-white">
+                        <span>
+                            <span>Frame: </span><span class="fw-bold FrameNum" id=""></span>
+                        </span>
+                        <span>
+                            <span>Date: </span><span class="fw-bold Date" id=""></span>
+                        </span>
+                        <span>
+                            <span>Time: </span><span class="fw-bold Time" id=""></span>
+                        </span>
+                        <span class="fw-bold ImageType" id=""></span>
+                    </div>
+                    <div class="right-details">
+                        <input class="range-slider" type="range" min="0" max="100" value="0" />
+                    </div>
+                    <div class="bottom-right-details text-white">
+                        <span>
+                            <span class="fw-bold InstitutionName" id=""></span>
+                        </span>
+                    </div>
                 </div>
-                <div class="bottom-left-details text-white">
-                    <span>
-                        <span>Thk: </span><span class="fw-bold Thk" id=""></span>
-                    </span>
-                    <span>
-                        <span>Size: </span><span class="fw-bold rows" id=""></span>,<span class="fw-bold columns" id=""></span>
-                    </span>
-                    <span>
-                        <span>Scale: </span><span class="fw-bold Scale" id=""></span>
-                    </span>
-                    <span>
-                        <span>W: </span><span class="fw-bold WW" id=""></span>&nbsp;&nbsp;<span>L: </span><span class="fw-bold WL" id=""></span>
-                    </span>
-                </div>
-                <div class="top-right-details text-white">
-                    <span>
-                        <span>Frame: </span><span class="fw-bold FrameNum" id=""></span>
-                    </span>
-                    <span>
-                        <span>Date: </span><span class="fw-bold Date" id=""></span>
-                    </span>
-                    <span>
-                        <span>Time: </span><span class="fw-bold Time" id=""></span>
-                    </span>
-                    <span class="fw-bold ImageType" id=""></span>
-                </div>
-                <div class="right-details">
-                    <input class="range-slider" type="range" min="0" max="100" value="0" />
-                </div>
-                <div class="bottom-right-details text-white">
-                    <span>
-                        <span class="fw-bold InstitutionName" id=""></span>
-                    </span>
-                </div>
-            </div>
             </div>
 
 
@@ -198,7 +203,6 @@
     </div>
     <script>
         cornerstoneWADOImageLoader.external.cornerstone = cornerstone;
-
         //// this function gets called once the user drops the file onto the div
         //function handleFileSelect(evt) {
         //    evt.stopPropagation();
@@ -233,6 +237,7 @@
         //});
         //let path = document.querySelector(".dicom-container").dataset.path
         const element1 = document.getElementById('dicomImage');
+        element1.setAttribute("data-folder", "SR001")
         const element2 = document.getElementById('dicomImage2');
         let Files = JSON.parse(document.querySelector(".dicom-container").dataset.files)
         let Files2 = []
@@ -247,10 +252,10 @@
         loadAndViewImage(imageId, element1)
 
         // Init CornerstoneTools
- 
+
         function loadAndViewImage(imageId, element) {
             //const element = document.getElementById('dicomImage');
-            cornerstone.loadImage(imageId).then(function (image) {
+            cornerstone.loadAndCacheImage(imageId).then(function (image) {
                 console.log(image);
                 const viewport = cornerstone.getDefaultViewportForImage(element, image);
                 cornerstone.displayImage(element, image, viewport);
@@ -294,9 +299,9 @@
                 element.querySelector('.rows').textContent = image.data.uint16('x00280010');
                 element.querySelector('.columns').textContent = image.data.uint16('x00280011');
                 if (element == element1) {
-                    element.querySelector('.FrameNum').textContent = `${getCurrentIndex() + 1} / ${Files.length}`
+                    element.querySelector('.FrameNum').textContent = `${getCurrentIndex(path1, Files) + 1} / ${Files.length}`
                 } else {
-                    element.querySelector('.FrameNum').textContent = `${getCurrentIndex() + 1} / ${Files2.length}`
+                    element.querySelector('.FrameNum').textContent = `${getCurrentIndex(path2, Files2) + 1} / ${Files2.length}`
                 }
             }, function (err) {
                 alert(err);
@@ -402,28 +407,37 @@
 
 
         let StaticPath
-        function getCurrentIndex() {
-            const currentSrc = path1.split('/').pop(); // Extract filename from src
-            StaticPath = path1.replace(currentSrc, "")
-            return Files.indexOf(currentSrc);
+        function getCurrentIndex(path, file) {
+            let currentSrc = path.split('/').pop(); // Extract filename from src
+            StaticPath = path.replace(currentSrc, "")
+            return file.indexOf(currentSrc);
         }
 
         // Function to update the image source
-        function updateImage(index) {
-            if (index >= 0 && index < Files.length) {
-                path1 = StaticPath + Files[index]
-                imageId = "wadouri:" + path1;
-                loadAndViewImage(imageId, element1)
+        function updateImage(index, path, file) {
+            if (index >= 0 && index < file.length) {
+                if (path == path1) {
+                    path1 = StaticPath + file[index]
+                    imageId = "wadouri:" + path1;
+                    loadAndViewImage(imageId, selectedElm)
+                } else {
+                    path2 = StaticPath + file[index]
+                    let imageId2 = "wadouri:" + path2;
+                    loadAndViewImage(imageId2, selectedElm)
+                }
             }
         }
-
-        let rangeSlider = selectedElm.querySelector(".range-slider")
+        let rangeSlider = element1.querySelector(".range-slider")
+        let rangeSlider2 = element2.querySelector(".range-slider")
         let step = 100 / (Files.length - 1)
+        let step2 = 100 / (Files2.length - 1)
         rangeSlider.step = step
+        rangeSlider2.step = step2
         element1.addEventListener("wheel", function (event) {
+            if (element1.classList.contains("active") == false) return
             event.preventDefault()
             let currentValue = parseFloat(rangeSlider.value);
-            let currentIndex = getCurrentIndex();
+            let currentIndex = getCurrentIndex(path1, Files);
             if (event.deltaY < 0) {
                 //scrolling up
                 currentIndex--
@@ -443,11 +457,42 @@
             } else if (rangeSlider.value > 100) {
                 rangeSlider.value = 100;
             }
-            updateImage(currentIndex)
+            updateImage(currentIndex, path1, Files)
         })
+        element2.addEventListener("wheel", function (event) {
+            if (element2.classList.contains("active") == false) return
+            event.preventDefault()
+            let currentValue = parseFloat(rangeSlider2.value);
+            let currentIndex = getCurrentIndex(path2, Files2);
+            if (event.deltaY < 0) {
+                //scrolling up
+                currentIndex--
+                if (rangeSlider2.value > 0) {
+                    rangeSlider2.value = currentValue - step2
+                }
+            } else if (event.deltaY > 0) {
+                //scrolling down
+                currentIndex++
+                if (rangeSlider2.value < 100) {
+                    rangeSlider2.value = currentValue + step2
+                }
+            }
+            // Ensure the value remains within bounds (0 to 100)
+            if (rangeSlider2.value < 0) {
+                rangeSlider2.value = 0;
+            } else if (rangeSlider2.value > 100) {
+                rangeSlider2.value = 100;
+            }
+            updateImage(currentIndex, path2, Files2)
+        })
+
         rangeSlider.addEventListener("input", function () {
             let indexOfFiles = Math.floor(this.value / step)
-            updateImage(indexOfFiles)
+            updateImage(indexOfFiles, path1, Files)
+        })
+        rangeSlider2.addEventListener("input", function () {
+            let indexOfFiles = Math.floor(this.value / step2)
+            updateImage(indexOfFiles, path2, Files2)
         })
         function changePathToImageID(path) {
             path = path.replace(".jpg", "/")
@@ -457,11 +502,11 @@
             return Id
         }
 
-        //cornerstone.events.addEventListener('cornerstoneimageloadprogress', function (event) {
-        //    const eventData = event.detail;
-        //    const loadProgress = document.getElementById('loadProgress');
-        //    loadProgress.textContent = `Image Load Progress: ${eventData.percentComplete}%`;
-        //});
+        cornerstone.events.addEventListener('cornerstoneimageloadprogress', function (event) {
+            const eventData = event.detail;
+            const loadProgress = document.querySelector('.loadProgress');
+            loadProgress.textContent = `Image Load Progress: ${eventData.percentComplete}%`;
+        });
     </script>
     <script>
         $(document).ready(function () {
@@ -469,41 +514,8 @@
                 if ($(this).parent().is(".active")) return
                 $(".tumbnail-item").removeClass("active")
                 $(this).parent().addClass("active")
-                let imageSrc = $(this).prop("src")
-                let folderOfDicom = imageSrc.replace(".jpg", "")
-                folderOfDicom = folderOfDicom.split("/").pop()
-                $.ajax({
-                    method: "POST",
-                    url: "@Url.Action("Dicom")",
-                    data: {
-                        folderOfDicom : folderOfDicom
-                    },
-                    success: function (response) {
-                        if (response.successMsg) {
-                            rangeSlider.value = 0
-                            if (selectedElm == element1) {
-                                $("#dicomImage").attr("data-folder" , folderOfDicom)
-                                Files = JSON.parse(response.successMsg)
-                                step = 100 / (Files.length - 1)
-                                path1 = imageSrc
-                                let ImageID = changePathToImageID(path1)
-                                loadAndViewImage(ImageID, element1)
-                            } else {
-                                $("#dicomImage2").attr("data-folder", folderOfDicom)
-                                Files2 = JSON.parse(response.successMsg)
-                                imageSrc = imageSrc.replace(".jpg", "/")
-                                imageSrc = imageSrc.replace("/tmb", "")
-                                path2 = imageSrc.concat(Files2[0])
-                                let imageId2 = "wadouri:" + path2;
-                                loadAndViewImage(imageId2, element2)
-                            }
-                            rangeSlider.step = step
-                        } else {
-                            alert(response.errorMsg)
-                        }
-                    }
-                })
-
+                let imageSrc1 = $(this).prop("src")
+                getDataFromAction(imageSrc1)
             })
 
             $("#multiSeries").on("click", function () {
@@ -529,8 +541,8 @@
                         success: function (response) {
                         if (response.successMsg) {
                         Files2 = JSON.parse(response.successMsg)
-                        //step = 100 / (Files.length - 1)
-                            //rangeSlider.step = step
+                            step2 = 100 / (Files2.length - 1)
+                            rangeSlider2.step = step2
                             imageSrc = imageSrc.replace(".jpg", "/")
                             imageSrc = imageSrc.replace("/tmb", "")
                             path2 = imageSrc.concat(Files2[0])
@@ -550,6 +562,92 @@
                 }
 
             })
+
+
+            //adding label to tumbnail items
+            $(".tumbnail-image").each(function () {
+                let src = $(this).prop("src")
+                src = src.replace(".jpg", "").split("/").pop()
+                $(this).next(".tumbnail-serie").text(src)
+            })
+
+
+
+            //dragable images to view
+            $(".tumbnail-image").on("dragstart", function (event) {
+                event.originalEvent.stopPropagation()
+                event.originalEvent.dataTransfer.setData("text", event.target.src)
+            })
+            $("#dicomImage").on("dragover", function (event) {
+                event.originalEvent.stopPropagation()
+                event.originalEvent.preventDefault()
+            })
+            $("#dicomImage").on("drop", function (event) {
+                event.originalEvent.stopPropagation()
+                let data = event.originalEvent.dataTransfer.getData("text")
+                getDataFromAction(data)
+                $(".tumbnail-item").each(function () {
+                    $(this).removeClass("active")
+                    if ($(this).children().first().prop("src") == data) {
+                        $(this).addClass("active")
+                    }
+                })
+            })
+            $("#dicomImage2").on("dragover", function (event) {
+                event.originalEvent.stopPropagation()
+                event.originalEvent.preventDefault()
+            })
+            $("#dicomImage2").on("drop", function (event) {
+                event.originalEvent.stopPropagation()
+                let data = event.originalEvent.dataTransfer.getData("text")
+                getDataFromAction(data)
+                    $(".tumbnail-item").each(function () {
+                        $(this).removeClass("active")
+                        if ($(this).children().first().prop("src") == data) {
+                            $(this).addClass("active")
+                        }
+                    })
+            })
+
+            function getDataFromAction(imageSrc) {
+                 let folderOfDicom = imageSrc.replace(".jpg", "")
+                 folderOfDicom = folderOfDicom.split("/").pop()
+                 $.ajax({
+                    method: "POST",
+                    url: "@Url.Action("Dicom")",
+                    data: {
+                        folderOfDicom : folderOfDicom
+                    },
+                    success: function (response) {
+                        if (response.successMsg) {
+                            if (selectedElm == element1) {
+                                rangeSlider.value = 0
+                                $("#dicomImage").attr("data-folder" , folderOfDicom)
+                                Files = JSON.parse(response.successMsg)
+                                step = 100 / (Files.length - 1)
+                                path1 = imageSrc
+                                let ImageID = changePathToImageID(path1)
+                                loadAndViewImage(ImageID, element1)
+                            } else {
+                                rangeSlider2.value = 0
+                                $("#dicomImage2").attr("data-folder", folderOfDicom)
+                                Files2 = JSON.parse(response.successMsg)
+                                step2 = 100 / (Files2.length - 1)
+                                imageSrc = imageSrc.replace(".jpg", "/")
+                                imageSrc = imageSrc.replace("/tmb", "")
+                                path2 = imageSrc.concat(Files2[0])
+                                let imageId2 = "wadouri:" + path2;
+                                loadAndViewImage(imageId2, element2)
+                            }
+                            rangeSlider.step = step
+                        }else {
+                            alert(response.errorMsg)
+                         }
+                    }
+                  })
+            }
+
+
         })
     </script>
     @*<script>
