@@ -121,9 +121,12 @@
     <Content Include="Scripts\cornerstone-tools.js" />
     <Content Include="Scripts\cornerstone-uids.js" />
     <Content Include="Scripts\dicom-parser.js" />
+    <Content Include="Scripts\hammerjs%402.0.8.js" />
     <Content Include="Scripts\image-loader.min.js" />
     <Content Include="Scripts\initializeWebWorkers.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
+    <Content Include="Scripts\jsSample.js" />
+    <Content Include="Scripts\jsSample2.js" />
     <Content Include="Scripts\ss.js" />
     <Content Include="Scripts\web-image-loader.js" />
     <Content Include="Web.config" />
