@@ -13,12 +13,12 @@
     <link rel="stylesheet" href="~/Content/Css/bootstrap.css" />
     <link rel="stylesheet" href="~/Content/Css/Dicom.css" />
     <script src="~/Scripts/jquery-3.7.1.min.js"></script>
+    <script src="~/Scripts/hammerjs@2.0.8.js"></script>
+    <script src="~/Scripts/dicom-parser.js"></script>
     <script src="~/Scripts/cornerstone-prev.js"></script>
     <script src="~/Scripts/cornerstone-math.js"></script>
     <script src="~/Scripts/cornerstone-tools.js"></script>
-    <script src="~/Scripts/dicom-parser.js"></script>
     <script src="~/Scripts/cornerstone-wado-image-loader@4.13.2.js"></script>
-    <script src="~/Scripts/hammerjs@2.0.8.js"></script>
     <script src="~/Scripts/initializeWebWorkers.js"></script>
     <script src="~/Scripts/cornerstone-uids.js"></script>
 </head>
@@ -79,11 +79,41 @@
                         <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" />
                     </svg>
                 </button>
-                <button id="multiSeries" class="toolbar-btn btn btn-outline-secondary rounded-0 mx-1" title="multi Series" type="button">
-                    <svg width="24" height="24" fill="currentColor" class="multiSeries-btn" viewBox="0 0 256 256">
-                        <path d="M120,48v64a7.9954,7.9954,0,0,1-8,8H48a7.99539,7.99539,0,0,1-8-8V48a7.99539,7.99539,0,0,1,8-8h64A7.9954,7.9954,0,0,1,120,48Zm88-8H144a7.99539,7.99539,0,0,0-8,8v64a7.99539,7.99539,0,0,0,8,8h64a7.9954,7.9954,0,0,0,8-8V48A7.9954,7.9954,0,0,0,208,40Zm-96,96H48a7.99539,7.99539,0,0,0-8,8v64a7.99539,7.99539,0,0,0,8,8h64a7.9954,7.9954,0,0,0,8-8V144A7.9954,7.9954,0,0,0,112,136Zm96,0H144a7.99539,7.99539,0,0,0-8,8v64a7.99539,7.99539,0,0,0,8,8h64a7.9954,7.9954,0,0,0,8-8V144A7.9954,7.9954,0,0,0,208,136Z" />
-                    </svg>
-                </button>
+                <div class="toolbar-btn layout-container btn mx-1">
+                    <button id="multiSeries" class="btn  rounded-0 toolbar-btn btn-outline-secondary" title="multi Series" type="button">
+                        <svg width="24" height="24" fill="currentColor" class="multiSeries-btn" viewBox="0 0 256 256">
+                            <path d="M120,48v64a7.9954,7.9954,0,0,1-8,8H48a7.99539,7.99539,0,0,1-8-8V48a7.99539,7.99539,0,0,1,8-8h64A7.9954,7.9954,0,0,1,120,48Zm88-8H144a7.99539,7.99539,0,0,0-8,8v64a7.99539,7.99539,0,0,0,8,8h64a7.9954,7.9954,0,0,0,8-8V48A7.9954,7.9954,0,0,0,208,40Zm-96,96H48a7.99539,7.99539,0,0,0-8,8v64a7.99539,7.99539,0,0,0,8,8h64a7.9954,7.9954,0,0,0,8-8V144A7.9954,7.9954,0,0,0,112,136Zm96,0H144a7.99539,7.99539,0,0,0-8,8v64a7.99539,7.99539,0,0,0,8,8h64a7.9954,7.9954,0,0,0,8-8V144A7.9954,7.9954,0,0,0,208,136Z" />
+                        </svg>
+                    </button>
+                    <table class="layout-selector-table " style="direction: ltr;">
+                        <tbody>
+                            <tr>
+                                <td title="1x1" onclick="splitScreen(1,1)" class="layout-item"></td>
+                                <td title="1x2" onclick="splitScreen(1,2)" class="layout-item"></td>
+                                <td title="1x3" onclick="splitScreen(1,3)" class="layout-item"></td>
+                                <td title="1x4" onclick="splitScreen(1,4)" class="layout-item"></td>
+                            </tr>
+                            <tr>
+                                <td title="2x1" onclick="splitScreen(2,1)" class="layout-item"></td>
+                                <td title="2x2" onclick="splitScreen(2,2)" class="layout-item"></td>
+                                <td title="2x3" onclick="splitScreen(2,3)" class="layout-item"></td>
+                                <td title="2x4" onclick="splitScreen(2,4)" class="layout-item"></td>
+                            </tr>
+                            <tr>
+                                <td title="3x1" onclick="splitScreen(3,1)" class="layout-item"></td>
+                                <td title="3x2" onclick="splitScreen(3,2)" class="layout-item"></td>
+                                <td title="3x3" onclick="splitScreen(3,3)" class="layout-item"></td>
+                                <td title="3x4" onclick="splitScreen(3,4)" class="layout-item"></td>
+                            </tr>
+                            <tr>
+                                <td title="4x1" onclick="splitScreen(4,1)" class="layout-item"></td>
+                                <td title="4x2" onclick="splitScreen(4,2)" class="layout-item"></td>
+                                <td title="4x3" onclick="splitScreen(4,3)" class="layout-item"></td>
+                                <td title="4x4" onclick="splitScreen(4,4)" class="layout-item"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <div class="dicom-tumbnail">
@@ -105,8 +135,8 @@
             </div>
         </div>
         <div class="dicom-container" data-files="@ViewBag.Files">
-            <div style="width:100%;height:100%;position:relative;color: white;display:flex;border-style:solid;border-color:black;" oncontextmenu="return false" class="disable-selection noIbar" unselectable="on" onselectstart="return false;" onmousedown="return false;">
-                <div id="dicomImage" class="dicom-frame active" style="width:100%;height:100%;position:relative">
+            <div style="width:100%;height:100%;position:relative;color: white;display:flex;flex-wrap:wrap;border-style:solid;border-color:black;" oncontextmenu="return false" class="disable-selection noIbar" unselectable="on" onselectstart="return false;" onmousedown="return false;">
+                <div id="dicomImage1" class="dicom-frame active" style="width:100%;height:100%;position:relative">
                     <div class="top-left-details text-white">
                         <span class="h3 fw-bold PatientName" id=""></span>
                         <span>
@@ -152,51 +182,54 @@
                     </div>
                 </div>
                 @*second*@
-                <div id="dicomImage2" class="dicom-frame" style="width:50%;height:100%;position:relative;display:none">
-                    <div class="top-left-details text-white">
-                        <span class="h3 fw-bold PatientName" id=""></span>
-                        <span>
-                            <span>ID: </span><span class="fw-bold PatientID" id=""></span>
-                        </span>
-                        <span>
-                            <span>Age: </span><span class="fw-bold PatientAge" id=""></span>
-                        </span>
+                @for (int i = 2; i <= 16; i++)
+                {
+                    <div id="dicomImage@(i)" class="dicom-frame" style="width:50%;height:100%;position:relative;display:none">
+                        <div class="top-left-details text-white">
+                            <span class="h3 fw-bold PatientName" id=""></span>
+                            <span>
+                                <span>ID: </span><span class="fw-bold PatientID" id=""></span>
+                            </span>
+                            <span>
+                                <span>Age: </span><span class="fw-bold PatientAge" id=""></span>
+                            </span>
+                        </div>
+                        <div class="bottom-left-details text-white">
+                            <span>
+                                <span>Thk: </span><span class="fw-bold Thk" id=""></span>
+                            </span>
+                            <span>
+                                <span>Size: </span><span class="fw-bold rows" id=""></span>,<span class="fw-bold columns" id=""></span>
+                            </span>
+                            <span>
+                                <span>Scale: </span><span class="fw-bold Scale" id=""></span>
+                            </span>
+                            <span>
+                                <span>W: </span><span class="fw-bold WW" id=""></span>&nbsp;&nbsp;<span>L: </span><span class="fw-bold WL" id=""></span>
+                            </span>
+                        </div>
+                        <div class="top-right-details text-white">
+                            <span>
+                                <span>Frame: </span><span class="fw-bold FrameNum" id=""></span>
+                            </span>
+                            <span>
+                                <span>Date: </span><span class="fw-bold Date" id=""></span>
+                            </span>
+                            <span>
+                                <span>Time: </span><span class="fw-bold Time" id=""></span>
+                            </span>
+                            <span class="fw-bold ImageType" id=""></span>
+                        </div>
+                        @*<div class="right-details">
+                                <input class="range-slider" type="range" min="0" max="100" value="0" />
+                            </div>*@
+                        <div class="bottom-right-details text-white">
+                            <span>
+                                <span class="fw-bold InstitutionName" id=""></span>
+                            </span>
+                        </div>
                     </div>
-                    <div class="bottom-left-details text-white">
-                        <span>
-                            <span>Thk: </span><span class="fw-bold Thk" id=""></span>
-                        </span>
-                        <span>
-                            <span>Size: </span><span class="fw-bold rows" id=""></span>,<span class="fw-bold columns" id=""></span>
-                        </span>
-                        <span>
-                            <span>Scale: </span><span class="fw-bold Scale" id=""></span>
-                        </span>
-                        <span>
-                            <span>W: </span><span class="fw-bold WW" id=""></span>&nbsp;&nbsp;<span>L: </span><span class="fw-bold WL" id=""></span>
-                        </span>
-                    </div>
-                    <div class="top-right-details text-white">
-                        <span>
-                            <span>Frame: </span><span class="fw-bold FrameNum" id=""></span>
-                        </span>
-                        <span>
-                            <span>Date: </span><span class="fw-bold Date" id=""></span>
-                        </span>
-                        <span>
-                            <span>Time: </span><span class="fw-bold Time" id=""></span>
-                        </span>
-                        <span class="fw-bold ImageType" id=""></span>
-                    </div>
-                    @*<div class="right-details">
-                            <input class="range-slider" type="range" min="0" max="100" value="0" />
-                        </div>*@
-                    <div class="bottom-right-details text-white">
-                        <span>
-                            <span class="fw-bold InstitutionName" id=""></span>
-                        </span>
-                    </div>
-                </div>
+                }
             </div>
 
 
@@ -207,7 +240,7 @@
             // synchronizer/tool until all canvases have rendered an image.
             let canvasesReady = false;
             let numImagesLoaded = 0;
-            const firstElement = document.getElementById('dicomImage');
+            const firstElement = document.getElementById('dicomImage1');
             const secondElement = document.getElementById('dicomImage2');
 
             function addReferenceLinesTool() {
@@ -247,11 +280,16 @@
         cornerstoneTools.external.cornerstoneMath = cornerstoneMath;
         cornerstoneTools.external.cornerstone = cornerstone;
         cornerstoneTools.external.Hammer = Hammer;
-        let Files = JSON.parse(document.querySelector(".dicom-container").dataset.files)
+        let FileArray = []
+        let Files1 = JSON.parse(document.querySelector(".dicom-container").dataset.files)
         let Files2 = []
-        let element1 = document.getElementById('dicomImage');
-        let element2 = document.getElementById('dicomImage2');
-        let elements = [element1, element2]
+        let elements = []
+        for (let i = 1; i <= 16; i++) {
+            elements.push(document.getElementById(`dicomImage${i}`))
+        }
+        let element1 = elements[0]
+        let element2 = elements[1]
+
         let path1 = document.getElementById("item1").src
         let path2
         path1 = path1.replace(".jpg", "/").replace("/tmb", "")
@@ -263,8 +301,8 @@
         let imageIdsStack = [];
         let imageIdsStack2 = [];
 
-        for (let i = 0; i < Files.length; i++) {
-            imageIdsStack.push('wadouri:' + path1 + Files[i]);
+        for (let i = 0; i < Files1.length; i++) {
+            imageIdsStack.push('wadouri:' + path1 + Files1[i]);
         }
 
         let firstStack = {
@@ -288,8 +326,6 @@
         function loadSeries(cornerstone, imageIds, element, stack) {
             // Cache all images and metadata
             imageIds.forEach(imageId => cornerstone.loadAndCacheImage(imageId));
-
-
             // Load and display first image in stack
             return cornerstone.loadImage(imageIds[0]).then(image => {
                 // display this image
@@ -326,9 +362,8 @@
                 /*element.querySelector(".FrameNum").textContent = `${indexOfImage} / ${imageIds.length}`*/
                 //element.querySelector(".FrameNum").textContent = image.data.string("x00081160")
             });
-
         }
- 
+
 
         cornerstone.events.addEventListener('cornerstoneimageloadprogress', function (event) {
             const eventData = event.detail;
@@ -374,12 +409,12 @@
                     success: function (response) {
                     if (response.successMsg) {
                         if (document.querySelector(".dicom-container .active") == element1) {
-                        $("#dicomImage").attr("data-folder" , folderOfDicom)
-                        Files = JSON.parse(response.successMsg)
+                        $("#dicomImage1").attr("data-folder" , folderOfDicom)
+                        Files1 = JSON.parse(response.successMsg)
                         path1 = imageSrc.replace(".jpg", "/").replace("/tmb", "")
                         imageIdsStack =[]
-                        for (let i = 0; i < Files.length; i++) {
-                             imageIdsStack.push('wadouri:' + path1 + Files[i]);
+                        for (let i = 0; i < Files1.length; i++) {
+                             imageIdsStack.push('wadouri:' + path1 + Files1[i]);
                             }
                         firstStack.imageIds = imageIdsStack
                         loadSeries(cornerstone, imageIdsStack, element1, firstStack);
@@ -391,6 +426,7 @@
                             for (let i = 0; i < Files2.length; i++) {
                                 imageIdsStack2.push('wadouri:' + path2 + Files2[i]);
                             }
+
                             secondStack.imageIds = imageIdsStack2
                             loadSeries(cornerstone, imageIdsStack2, element2, secondStack);
                             //imageSrc = imageSrc.replace(".jpg", "/")
@@ -411,7 +447,7 @@
                 $(this).toggleClass("active")
                 //let image = cornerstone.getImage($("#dicomImage"))
                 if ($(this).is(".active")) {
-                    $("#dicomImage").css("width", "50%")
+                    $("#dicomImage1").css("width", "50%")
                     cornerstone.resize(element1, true)
                     $("#dicomImage2").show()
                     //Ajax
@@ -444,14 +480,100 @@
                         }
                     })
                 } else {
-                    $("#dicomImage").css("width", "100%")
+                    $("#dicomImage1").css("width", "100%")
                     $("#dicomImage2").hide()
                     cornerstone.resize(element1, true)
                  }
 
              })
-
         })
+
+
+
+        //adding label to tumbnail items
+        $(".tumbnail-image").each(function () {
+            let src = $(this).prop("src")
+            src = src.replace(".jpg", "").split("/").pop()
+            $(this).next(".tumbnail-serie").text(src)
+        })
+
+        //hover color of table selector
+        $(".layout-selector-table td").hover(function () {
+            var $this = $(this);
+            var cellIndex = $this.index();
+            var rowIndex = $this.parent().index();
+
+            // Highlight cells in the same row up to the current cell
+            $this.parent().find('td').slice(0, cellIndex + 1).addClass('hovered');
+
+            // Highlight cells in the same column up to the current row
+            $('.layout-selector-table tr').each(function (index) {
+                if (index <= rowIndex) {
+                    $(this).find('td').slice(0, cellIndex + 1).addClass('hovered');
+                }
+            });
+        }, function () {
+                // Optional: remove hover class when mouse leaves the cell
+            $('.layout-selector-table td').removeClass('hovered');
+        }
+        )
+        //for dividing screen to what we want
+        function splitScreen(row, col) {
+            let dicomFrameCount = row * col
+            $(".dicom-frame").hide()
+            $(".dicom-frame").css("width", `${100 / col}%`)
+            $(".dicom-frame").css("height", `${100 / row}%`)
+            for (let cell = 1; cell <= dicomFrameCount; cell++) {
+                $(`#dicomImage${cell}`).css("display", "flex")
+                cornerstone.resize(element1)
+                //if (dicomFrameCount <= 4) {
+                    let imageSrc = $(`.tumbnail-item:nth-of-type(${cell})`).find("img").prop("src")
+                    let path = imageSrc.replace(".jpg", "/").replace("/tmb", "")
+                    console.log(imageSrc)
+                    let folderOfDicom = imageSrc.replace(".jpg", "")
+                    folderOfDicom = folderOfDicom.split("/").pop()
+                    $(`#dicomImage${cell}`).attr("data-folder", folderOfDicom)
+                    $.ajax({
+                        method: "POST",
+                        url: "@Url.Action("Dicom")",
+                        data: {
+                            folderOfDicom : folderOfDicom
+                        },
+                        success: function (response) {
+                            if (response.successMsg) {
+                                let FileOfStack = JSON.parse(response.successMsg)
+                                let fileDetail = {
+                                    name: `File${cell}`,
+                                    list : FileOfStack
+                                }
+                                addUniqueFile(fileDetail)
+                                let imageIdsStack = []
+                                for (let i = 0; i < FileOfStack.length; i++) {
+                                    imageIdsStack.push('wadouri:' + path + FileOfStack[i]);
+                                }
+                                let currentStack = {
+                                    currentImageIdIndex: 0,
+                                    imageIds: imageIdsStack
+                                }
+                                loadSeries(cornerstone, imageIdsStack, elements[cell-1], currentStack);
+                                cornerstone.enable(elements[cell-1])
+                                cornerstone.resize(elements[cell - 1])
+
+                            } else {
+                                alert(response.errorMsg)
+                            }
+                        }
+                    })
+                //}
+
+            }
+        }
+
+        function addUniqueFile(newobj) {
+            if (!FileArray.some(obj => obj.name === newobj.name)) {
+                FileArray.push(newobj)
+            }
+        }
     </script>
 
 

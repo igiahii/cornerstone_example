@@ -2,35 +2,39 @@
     width: 100%;
     height: 100vh;
     display: flex;
-    flex-direction : row-reverse;
+    flex-direction: row-reverse;
     background-color: #1d2a35;
 }
+
 .dicom-toolbar {
     width: calc(100% - 180px);
     height: 60px;
     display: flex;
-    flex-direction : row-reverse ;
+    flex-direction: row-reverse;
     align-items: center;
     justify-content: space-between;
     padding: 10px 15px;
     background-color: #000;
 }
+
 .toolbar-list {
-    height : 100% ;
-    display : flex ;
-    justify-content : flex-start ;
-    align-items : center ;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
+
 .toolbar-btn {
-    padding : 0 ;
-    width : 40px ;
-    height : 40px;
-    display : flex;
-    align-items : center ;
-    justify-content : center ;
-    background-color : #000 ;
-    color : #fff ;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000;
+    color: #fff;
 }
+
 .dicom-container {
     display: flex;
     align-items: center;
@@ -40,22 +44,26 @@
     left: 180px;
     width: calc(100% - 180px);
     height: calc(100% - 140px);
+}
 
-}
 .dicom-frame {
-    border: 1px solid #c3c3c3
+    border: 2px solid #c5c5c5;
+    justify-content : center ;
 }
-.dicom-container .active{
-    border: 1px solid rgb(255, 216, 0)
+
+.dicom-container .active {
+    border: 2px solid rgb(255, 216, 0)
 }
+
 .top-left-details {
-    display : flex ;
-    flex-direction : column ;
-    align-items : flex-start ;
-    position : absolute ;
-    top : 15px ;
-    left : 15px ;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: absolute;
+    top: 15px;
+    left: 15px;
 }
+
 .bottom-left-details {
     display: flex;
     flex-direction: column;
@@ -64,6 +72,7 @@
     bottom: 15px;
     left: 15px;
 }
+
 .top-right-details {
     display: flex;
     flex-direction: column;
@@ -72,11 +81,13 @@
     top: 15px;
     right: 15px;
 }
+
 .right-details {
-    position : absolute ;
-    right : 100px ;
-    top : 50%;
+    position: absolute;
+    right: 100px;
+    top: 50%;
 }
+
 .range-slider {
     outline: none;
     -webkit-appearance: none;
@@ -86,6 +97,7 @@
     transform: translate(-50%, -50%) rotate(90deg);
     background-color: #c3c3c3
 }
+
     .range-slider::-webkit-slider-thumb {
         -webkit-appearance: none;
         appearance: none;
@@ -94,6 +106,7 @@
         border-radius: 10px;
         background-color: rgb(255, 216, 0)
     }
+
 .bottom-right-details {
     display: flex;
     flex-direction: column;
@@ -102,43 +115,84 @@
     bottom: 15px;
     right: 15px;
 }
+
 .dicom-tumbnail {
-    width : 180px ;
-    min-height : 100% ;
-    background-color : #000 ;
-    display : flex ;
-    flex-direction : column ;
-    align-items : center ;
-    justify-content : flex-start ;
-    padding : 10px ;
+    width: 180px;
+    min-height: 100%;
+    background-color: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px;
 }
+
     .dicom-tumbnail .active {
         border: 1px solid rgb(255, 216, 0)
     }
-    .dicom-tumbnail .active p{
-        background-color: rgb(255, 216, 0)
-    }
+
+        .dicom-tumbnail .active p {
+            background-color: rgb(255, 216, 0)
+        }
+
 .tumbnail-item {
-    position : relative ;
-    height : 160px ;
-    width : 160px ;
-    border : 1px solid #c3c3c3;
-    cursor : pointer ;
-    margin : 10px;
+    position: relative;
+    height: 160px;
+    width: 160px;
+    border: 1px solid #c3c3c3;
+    cursor: pointer;
+    margin: 10px;
 }
-.tumbnail-image{
-    width : 100% ;
-    height : 100% ;
-    object-fit : contain ;
+
+.tumbnail-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
+
 .tumbnail-serie {
-    position : absolute ;
-    bottom : 0 ;
-    right : 0;
-    padding : 3px;
-    font-weight :600;
-    font-size : 12px;
-    background-color : #c3c3c3;
-    color :#000;
-    margin : 0;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 3px;
+    font-weight: 600;
+    font-size: 12px;
+    background-color: #c3c3c3;
+    color: #000;
+    margin: 0;
+}
+
+.layout-container {
+    position: relative
+}
+
+    .layout-container:hover .layout-selector-table {
+        display: flex;
+    }
+
+.layout-selector-table {
+    display: none;
+    justify-content : center ;
+    align-items : center ;
+    position: absolute;
+    top: 35px;
+    left: -6px;
+    z-index: 1000;
+    margin: 5px;
+    width: 100px;
+    height: 100px;
+    background-color: #000;
+    /*border : 1px solid #c3c3c3*/
+}
+
+.layout-item {
+    /*    width : 10px ;
+    height : 10px ;*/
+    width: 25px ;
+    height : 25px ;
+    border: 1px solid #c3c3c3;
+}
+.hovered {
+    background-color: #367be1;
+    /*border-color: #367be1*/
 }
