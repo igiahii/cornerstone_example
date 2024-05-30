@@ -236,39 +236,50 @@
         </div>
         <script>
 
-            // Doing some dark magic here to make sure we don't add our
-            // synchronizer/tool until all canvases have rendered an image.
-            let canvasesReady = false;
-            let numImagesLoaded = 0;
-            const firstElement = document.getElementById('dicomImage1');
-            const secondElement = document.getElementById('dicomImage2');
+            //// Doing some dark magic here to make sure we don't add our
+            //// synchronizer/tool until all canvases have rendered an image.
+            //let canvasesReady = false;
+            //let numImagesLoaded = 0;
+            //let elementsSync = []
+            //for (let i = 1; i <= 16; i++) {
+            //    elementsSync.push(document.getElementById(`dicomImage${i}`))
+            //}
+            //const firstElement = document.getElementById('dicomImage1');
+            //const secondElement = document.getElementById('dicomImage2');
+            ////const thirdElement = document.getElementById('dicomImage3');
 
-            function addReferenceLinesTool() {
-                const synchronizer = new cornerstoneTools.Synchronizer(
-                    'cornerstonenewimage',
-                    cornerstoneTools.updateImageSynchronizer
-                );
+            //function addReferenceLinesTool() {
+            //    const synchronizer = new cornerstoneTools.Synchronizer(
+            //        'cornerstonenewimage',
+            //        cornerstoneTools.updateImageSynchronizer
+            //    );
+            //    // These have to be added to our synchronizer before we pass it to our tool
+            //    //synchronizer.add(firstElement);
+            //    //synchronizer.add(secondElement);
+            //    console.log(synchronizer)
+            //    let activeElm = document.querySelector(".dicom-container .active")
+            //    elementsSync.forEach(elm => synchronizer.add(elm))
+            //    //elementsSync.forEach(elm => synchronizer.addSource(elm))
+            //    synchronizer.removeSource(activeElm)
+            //    cornerstoneTools.addTool(cornerstoneTools.ReferenceLinesTool);
+            //    cornerstoneTools.setToolEnabled('ReferenceLines', {
+            //        synchronizationContext: synchronizer,
+            //    });
+            //}
 
-                // These have to be added to our synchronizer before we pass it to our tool
-                synchronizer.add(firstElement);
-                synchronizer.add(secondElement);
+            //const handleImageRendered = (evt) => {
+            //    evt.detail.element.removeEventListener('cornerstoneimagerendered', handleImageRendered)
+            //    numImagesLoaded++;
+            //    if (numImagesLoaded == 2) {
+            //        addReferenceLinesTool();
+            //    }
+            //}
+            ////firstElement.addEventListener('cornerstoneimagerendered', handleImageRendered)
+            ////secondElement.addEventListener('cornerstoneimagerendered', handleImageRendered)
+            ////thirdElement.addEventListener('cornerstoneimagerendered', handleImageRendered)
+            //elementsSync.forEach(elm => cornerstone.enable(elm))
+            //elementsSync.forEach(elm => elm.addEventListener("cornerstoneimagerendered", handleImageRendered))
 
-                cornerstoneTools.addTool(cornerstoneTools.ReferenceLinesTool);
-                cornerstoneTools.setToolEnabled('ReferenceLines', {
-                    synchronizationContext: synchronizer,
-                });
-            }
-
-            const handleImageRendered = (evt) => {
-                evt.detail.element.removeEventListener('cornerstoneimagerendered', handleImageRendered)
-
-                numImagesLoaded++;
-                if (numImagesLoaded === 2) {
-                    addReferenceLinesTool();
-                }
-            }
-            firstElement.addEventListener('cornerstoneimagerendered', handleImageRendered)
-            secondElement.addEventListener('cornerstoneimagerendered', handleImageRendered)
 
 
         </script>
@@ -295,7 +306,15 @@
         path1 = path1.replace(".jpg", "/").replace("/tmb", "")
         cornerstoneTools.init({ globalToolSyncEnabled: true })
 
-
+        //test
+        let synchronizer = new cornerstoneTools.Synchronizer(
+            'cornerstonenewimage',
+            cornerstoneTools.updateImageSynchronizer
+        );
+        cornerstoneTools.addTool(cornerstoneTools.ReferenceLinesTool);
+        cornerstoneTools.setToolEnabled('ReferenceLines', {
+            synchronizationContext: synchronizer,
+        });
 
         const toolName = 'StackScrollMouseWheel';
         let imageIdsStack = [];
@@ -324,6 +343,7 @@
         cornerstone.enable(element1);
 
         function loadSeries(cornerstone, imageIds, element, stack) {
+
             // Cache all images and metadata
             imageIds.forEach(imageId => cornerstone.loadAndCacheImage(imageId));
             // Load and display first image in stack
@@ -377,6 +397,8 @@
                 event.stopPropagation()
                 elements.forEach(item => item.classList.remove("active"))
                 elem.classList.add("active")
+                elements.forEach(item => synchronizer.removeSource(item))
+                synchronizer.addSource(elem)
             })
         })
 
@@ -387,6 +409,8 @@
                 event.stopPropagation()
                 elements.forEach(item => item.classList.remove("active"))
                 elem.classList.add("active")
+                elements.forEach(item => synchronizer.removeSource(item))
+                synchronizer.addSource(elem)
             })
         })
 
@@ -498,7 +522,8 @@
         })
 
         //hover color of table selector
-        $(".layout-selector-table td").hover(function () {
+        $(".layout-selector-table td").hover(function (event) {
+            event.stopPropagation()
             var $this = $(this);
             var cellIndex = $this.index();
             var rowIndex = $this.parent().index();
@@ -519,6 +544,8 @@
         )
         //for dividing screen to what we want
         function splitScreen(row, col) {
+            //test
+            synchronizer.destroy()
             let dicomFrameCount = row * col
             $(".dicom-frame").hide()
             $(".dicom-frame").css("width", `${100 / col}%`)
@@ -556,17 +583,22 @@
                                     imageIds: imageIdsStack
                                 }
                                 loadSeries(cornerstone, imageIdsStack, elements[cell-1], currentStack);
-                                cornerstone.enable(elements[cell-1])
+                                cornerstone.enable(elements[cell - 1])
+                                //test
+                                synchronizer.add(elements[cell - 1])
                                 cornerstone.resize(elements[cell - 1])
-
+                                    synchronizer.removeSource(elements[cell - 1])
                             } else {
                                 alert(response.errorMsg)
                             }
                         }
                     })
                 //}
-
+                
             }
+            ////test
+            //elements.forEach(item => synchronizer.removeSource(item))
+            //synchronizer.addSource(".dicom-container .active")
         }
 
         function addUniqueFile(newobj) {

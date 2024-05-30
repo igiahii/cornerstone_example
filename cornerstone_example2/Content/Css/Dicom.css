@@ -47,12 +47,13 @@
 }
 
 .dicom-frame {
-    border: 2px solid #c5c5c5;
-    justify-content : center ;
+    overflow : hidden ;
+    border: 1px solid #c5c5c5;
+    justify-content: center;
 }
 
 .dicom-container .active {
-    border: 2px solid rgb(255, 216, 0)
+    border: 2px solid rgb(255, 216, 0);
 }
 
 .top-left-details {
@@ -167,7 +168,7 @@
 }
 
     .layout-container:hover .layout-selector-table {
-        display: flex;
+        display: flex !important;
     }
 
 .layout-selector-table {
