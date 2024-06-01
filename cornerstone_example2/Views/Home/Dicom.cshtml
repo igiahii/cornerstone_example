@@ -114,6 +114,21 @@
                         </tbody>
                     </table>
                 </div>
+                <button id="downloadFile" class="toolbar-btn btn btn-outline-secondary rounded-0 mx-1" title="download file" type="button">
+                    <svg width="21" height="21" fill="currentColor" class="downloadFile-btn" viewBox="0 0 16 16">
+                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
+                    </svg>
+                </button>
+                <button id="downloadZip" class="toolbar-btn btn btn-outline-secondary rounded-0 mx-1" title="download Zip folder" type="button">
+                    <svg width="27" height="27" fill="#000" class="downloadZip-btn" viewBox="0 0 24 24">
+                        <path d="M4 4C4 3.44772 4.44772 3 5 3H14H14.5858C14.851 3 15.1054 3.10536 15.2929 3.29289L19.7071 7.70711C19.8946 7.89464 20 8.149 20 8.41421V20C20 20.5523 19.5523 21 19 21H5C4.44772 21 4 20.5523 4 20V4Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round" />
+                        <path d="M20 8H15V3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M7 13H9.5L7 17H9.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M12 13V17" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M15 17L15 15.5M15 15.5L15 13L15.75 13C16.4404 13 17 13.5596 17 14.25V14.25C17 14.9404 16.4404 15.5 15.75 15.5H15Z" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
             </div>
         </div>
         <div class="dicom-tumbnail">
@@ -293,6 +308,11 @@
         cornerstoneTools.external.Hammer = Hammer;
         let FileArray = []
         let Files1 = JSON.parse(document.querySelector(".dicom-container").dataset.files)
+        let FileObject1 = {
+            name: "SR001",
+            list : Files1
+        }
+        FileArray.push(FileObject1)
         let Files2 = []
         let elements = []
         for (let i = 1; i <= 16; i++) {
@@ -395,6 +415,13 @@
             elem.addEventListener("wheel", function (event) {
                 event.preventDefault()
                 event.stopPropagation()
+                let serie = this.dataset.folder
+                document.querySelectorAll(".tumbnail-image").forEach(image => {
+                    image.parentNode.classList.remove("active")
+                    if (image.src.replace(".jpg", "").split("/").pop() == serie) {
+                        image.parentNode.classList.add("active")
+                    }
+                })
                 elements.forEach(item => item.classList.remove("active"))
                 elem.classList.add("active")
                 elements.forEach(item => synchronizer.removeSource(item))
@@ -407,6 +434,13 @@
             elem.addEventListener("click", function (event) {
                 event.preventDefault()
                 event.stopPropagation()
+                let serie = this.dataset.folder
+                document.querySelectorAll(".tumbnail-image").forEach(image => {
+                    image.parentNode.classList.remove("active")
+                    if (image.src.replace(".jpg", "").split("/").pop() == serie) {
+                        image.parentNode.classList.add("active")
+                    }
+                })
                 elements.forEach(item => item.classList.remove("active"))
                 elem.classList.add("active")
                 elements.forEach(item => synchronizer.removeSource(item))
@@ -418,70 +452,28 @@
     <script>
         $(document).ready(function () {
             $(".tumbnail-image").on("click", function () {
+                let activeDicom = $(".dicom-container .active")
                 if ($(this).parent().is(".active")) return
                 $(".tumbnail-item").removeClass("active")
                 $(this).parent().addClass("active")
                 let imageSrc = $(this).prop("src")
+                let path = imageSrc.replace(".jpg", "/").replace("/tmb", "")
                 let folderOfDicom = imageSrc.replace(".jpg", "")
                 folderOfDicom = folderOfDicom.split("/").pop()
-                $.ajax({
-                    method: "POST",
-                    url: "@Url.Action("Dicom")",
-                    data: {
-                        folderOfDicom : folderOfDicom
-                    },
-                    success: function (response) {
-                    if (response.successMsg) {
-                        if (document.querySelector(".dicom-container .active") == element1) {
-                        $("#dicomImage1").attr("data-folder" , folderOfDicom)
-                        Files1 = JSON.parse(response.successMsg)
-                        path1 = imageSrc.replace(".jpg", "/").replace("/tmb", "")
-                        imageIdsStack =[]
-                        for (let i = 0; i < Files1.length; i++) {
-                             imageIdsStack.push('wadouri:' + path1 + Files1[i]);
-                            }
-                        firstStack.imageIds = imageIdsStack
-                        loadSeries(cornerstone, imageIdsStack, element1, firstStack);
-                        } else {
-                            $("#dicomImage2").attr("data-folder", folderOfDicom)
-                            Files2 = JSON.parse(response.successMsg)
-                            path2 = imageSrc.replace(".jpg", "/").replace("/tmb", "")
-                            imageIdsStack2 = []
-                            for (let i = 0; i < Files2.length; i++) {
-                                imageIdsStack2.push('wadouri:' + path2 + Files2[i]);
-                            }
-
-                            secondStack.imageIds = imageIdsStack2
-                            loadSeries(cornerstone, imageIdsStack2, element2, secondStack);
-                            //imageSrc = imageSrc.replace(".jpg", "/")
-                            //imageSrc = imageSrc.replace("/tmb", "")
-                            //path2 = imageSrc.concat(Files2[0])
-                            //let imageId2 = "wadouri:" + path2;
-                            //loadAndViewImage(imageId2, element2)
-                        }
-                    }else {
-                        alert(response.errorMsg)
-                        }
+                let existFile = FileArray.find(file => file.name === folderOfDicom) ?? null
+                if (existFile != null) {
+                    activeDicom.attr("data-folder", folderOfDicom)
+                    let FileOfStack = existFile.list
+                    let imageIdsStack = []
+                    for (let i = 0; i < FileOfStack.length; i++) {
+                        imageIdsStack.push('wadouri:' + path + FileOfStack[i]);
                     }
-                })
-            })
-
-
-             $("#multiSeries").on("click", function () {
-                $(this).toggleClass("active")
-                //let image = cornerstone.getImage($("#dicomImage"))
-                if ($(this).is(".active")) {
-                    $("#dicomImage1").css("width", "50%")
-                    cornerstone.resize(element1, true)
-                    $("#dicomImage2").show()
-                    //Ajax
-                    $(this).parent().addClass("active")
-                    let imageSrc = $(".tumbnail-item:nth-of-type(2)").find("img").prop("src")
-                    path2 = imageSrc.replace(".jpg", "/").replace("/tmb", "")
-                    console.log(imageSrc)
-                    let folderOfDicom = imageSrc.replace(".jpg", "")
-                    folderOfDicom = folderOfDicom.split("/").pop()
-                    $("#dicomImage2").attr("data-folder", folderOfDicom)
+                    let currentStack = {
+                        currentImageIdIndex: 0,
+                        imageIds: imageIdsStack
+                    }
+                    loadSeries(cornerstone, imageIdsStack, activeDicom[0], currentStack);
+                } else {
                     $.ajax({
                         method: "POST",
                         url: "@Url.Action("Dicom")",
@@ -490,34 +482,83 @@
                         },
                         success: function (response) {
                             if (response.successMsg) {
-                                Files2 = JSON.parse(response.successMsg)
-                                imageIdsStack2 = []
-                                for (let i = 0; i < Files2.length; i++) {
-                                    imageIdsStack2.push('wadouri:' + path2 + Files2[i]);
+                                activeDicom.attr("data-folder", folderOfDicom)
+                                let FileOfStack = JSON.parse(response.successMsg)
+                                let fileDetail = {
+                                    name: folderOfDicom,
+                                    list: FileOfStack
                                 }
-                                secondStack.imageIds = imageIdsStack2
-                                loadSeries(cornerstone, imageIdsStack2, element2, secondStack);
-                                cornerstone.enable(element2)
+                                addUniqueFile(fileDetail)
+                                let imageIdsStack = []
+                                for (let i = 0; i < FileOfStack.length; i++) {
+                                    imageIdsStack.push('wadouri:' + path + FileOfStack[i]);
+                                }
+                                let currentStack = {
+                                    currentImageIdIndex: 0,
+                                    imageIds: imageIdsStack
+                                }
+                                loadSeries(cornerstone, imageIdsStack, activeDicom[0], currentStack);
                             } else {
                                 alert(response.errorMsg)
                             }
                         }
                     })
+                }
+            })
+
+
+             $("#multiSeries").on("click", function () {
+                $(this).toggleClass("active")
+                if ($(this).is(".active")) {
+                    $(".layout-selector-table").css("display" , "flex")
                 } else {
-                    $("#dicomImage1").css("width", "100%")
-                    $("#dicomImage2").hide()
-                    cornerstone.resize(element1, true)
+                    $(".layout-selector-table").css("display", "none")
                  }
 
              })
         })
 
+        //download a file with frame number and series name 
+        $("#downloadFile").on("click", function () {
+            let activeDicom = $(".dicom-container .active")
+            let serie = activeDicom.attr("data-folder")
+            let frameNum = activeDicom.find(".FrameNum").text().split(" ")[0]
+            frameNum = parseInt(frameNum)
+            let activeFile = FileArray.find(file => file.name === serie)
+            window.location = window.location.origin + "/Content/Img/series/" + serie + "/" + activeFile.list[frameNum -1]
+        })
+        //download the zip file of series folder
+        $("#downloadZip").on("click", function () {
+            let activeDicom = $(".dicom-container .active")
+            let serie = activeDicom.attr("data-folder")
+            $.ajax({
+                method: "POST",
+                url: "@Url.Action("DownloadZip")",
+                data: {
+                    folderOfDicom : serie
+                },
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function (response) {
+                    var blob = new Blob([response], { type: 'application/zip' });
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = serie + ".zip";
+                    link.click();
+                }
+            })
+        })
 
 
         //adding label to tumbnail items
-        $(".tumbnail-image").each(function () {
+        $(".tumbnail-image").each(function (id) {
             let src = $(this).prop("src")
             src = src.replace(".jpg", "").split("/").pop()
+            if ($(".tumbnail-image")[id] == $(".tumbnail-image")[0]) {
+                //$(".tumbnail-image")[id].dataset.folder = src
+                $(`#dicomImage${id+1}`).attr("data-folder" , src)
+            }
             $(this).next(".tumbnail-serie").text(src)
         })
 
@@ -547,6 +588,8 @@
             //test
             synchronizer.destroy()
             let dicomFrameCount = row * col
+            $(".layout-selector-table").css("display", "none")
+            $("#multiSeries").removeClass("active")
             $(".dicom-frame").hide()
             $(".dicom-frame").css("width", `${100 / col}%`)
             $(".dicom-frame").css("height", `${100 / row}%`)
@@ -570,7 +613,7 @@
                             if (response.successMsg) {
                                 let FileOfStack = JSON.parse(response.successMsg)
                                 let fileDetail = {
-                                    name: `File${cell}`,
+                                    name: folderOfDicom,
                                     list : FileOfStack
                                 }
                                 addUniqueFile(fileDetail)

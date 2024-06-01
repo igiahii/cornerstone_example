@@ -167,9 +167,9 @@
     position: relative
 }
 
-    .layout-container:hover .layout-selector-table {
+/*    .layout-container:hover .layout-selector-table {
         display: flex !important;
-    }
+    }*/
 
 .layout-selector-table {
     display: none;

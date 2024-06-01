@@ -47,6 +47,7 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -93,6 +94,7 @@
   <ItemGroup>
     <Content Include="Content\Css\bootstrap.css" />
     <Content Include="Content\Css\Dicom.css" />
+    <Content Include="Content\Css\papaya.css" />
     <Content Include="Content\Css\Tumbnail.css" />
     <Content Include="Content\Img\Jpg\1.jpg" />
     <Content Include="Content\Img\Jpg\2.jpg" />
@@ -127,6 +129,7 @@
     <Content Include="Scripts\jquery-3.7.1.min.js" />
     <Content Include="Scripts\jsSample.js" />
     <Content Include="Scripts\jsSample2.js" />
+    <Content Include="Scripts\papaya-viewer.js" />
     <Content Include="Scripts\ss.js" />
     <Content Include="Scripts\web-image-loader.js" />
     <Content Include="Web.config" />

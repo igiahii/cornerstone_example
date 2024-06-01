@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -48,5 +49,29 @@ namespace cornerstone_example2.Controllers
                 return Json(new { errorMsg = "folder not found!" });
             }
         }
+
+        //for creating zip file of series folder then pass the download link to view
+        [HttpPost]
+        public ActionResult DownloadZip(string folderOfDicom)
+        {
+
+            var basePath = AppDomain.CurrentDomain.BaseDirectory;
+            var imageFolder = Path.Combine(basePath, "Content", "Img", "series", folderOfDicom);
+            if (Directory.Exists(imageFolder))
+            {
+                string tempZipPath = Path.Combine(basePath , "Content" , "Img", "series" , folderOfDicom + ".zip");
+                //creating zip file
+                ZipFile.CreateFromDirectory(imageFolder , tempZipPath);
+
+                byte[] fileBytes = System.IO.File.ReadAllBytes(tempZipPath);
+                System.IO.File.Delete(tempZipPath); // Clean up the temporary file
+                return File(fileBytes, "application/zip" , folderOfDicom + ".zip");
+            }
+            else
+            {
+                return HttpNotFound("folder not found");
+            }
+        }
+
     }
 }
