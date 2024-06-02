@@ -14,6 +14,13 @@ namespace cornerstone_example2.Controllers
         // GET: Home
         public ActionResult Index()
         {
+            string baseUrl = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"));
+
+            var basePath = AppDomain.CurrentDomain.BaseDirectory;
+            var imageFolder = Path.Combine(basePath, "Content", "Img", "series", "SR0031");
+            var Images = Directory.GetFiles(imageFolder, "*.DCM").Select(Path.GetFileName).OrderBy(name => name).ToList();
+            string jsonImages = JsonConvert.SerializeObject(Images);
+            ViewBag.Serie = jsonImages;
             return View();
         }
         public ActionResult Tumbnail()

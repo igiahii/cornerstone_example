@@ -9,32 +9,50 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
-    <link rel="stylesheet" href="~/Content/Css/papaya.css" />
-    <script src="~/Scripts/papaya-viewer.js"></script>
+    <script src="~/Scripts/papaya@1449.js"></script>
+
 </head>
-<body>
-    <div id="papayaContainer"></div>
+<body style="width:fit-content">
+    <div class="papaya-container" style="width:700px ; height : auto" data-serie="@ViewBag.Serie">
+        <div id="papaya" data-params="params"></div>
+    </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        //var list = $("#datalist").data('listdicom');
+        //const series = list.split(',');
+        //document.addEventListener('DOMContentLoaded', function () {
+        let array = JSON.parse(document.querySelector(".papaya-container").dataset.serie)
+        console.log(array)
+        //array = [
+        //    "1.3.12.2.1107.5.2.30.63392.2024052400455939207426333.DCM",
+        //    "1.3.12.2.1107.5.2.30.63392.2024052400455939335526338.DCM",
+        //    "1.3.12.2.1107.5.2.30.63392.2024052400455939415326339.DCM",
+        //    "1.3.12.2.1107.5.2.30.63392.2024052400455939862626340.DCM",
+        //    "1.3.12.2.1107.5.2.30.63392.2024052400455944755926342.DCM",
+        //    "1.3.12.2.1107.5.2.30.63392.2024052400455944809026343.DCM",
+        //    "1.3.12.2.1107.5.2.30.63392.2024052400455945348426344.DCM",
+        //    "1.3.12.2.1107.5.2.30.63392.2024052400455945822326345.DCM",
+        //    "1.3.12.2.1107.5.2.30.63392.2024052400455950115226346.DCM",
+        //]
+        let series = []
+        array.forEach(item => series.push("/Content/Img/series/SR0031/" + item))
+
+        var tests = [];
+        function initTest() {
             var params = [];
-            array = [
-                "1.3.12.2.1107.5.2.30.63392.2024052400455939207426333.DCM",
-                "1.3.12.2.1107.5.2.30.63392.2024052400455939335526338.DCM",
-                "1.3.12.2.1107.5.2.30.63392.2024052400455939415326339.DCM",
-                "1.3.12.2.1107.5.2.30.63392.2024052400455939862626340.DCM",
-                "1.3.12.2.1107.5.2.30.63392.2024052400455944755926342.DCM",
-                "1.3.12.2.1107.5.2.30.63392.2024052400455944809026343.DCM",
-                "1.3.12.2.1107.5.2.30.63392.2024052400455945348426344.DCM",
-                "1.3.12.2.1107.5.2.30.63392.2024052400455945348426345.DCM",
-                "1.3.12.2.1107.5.2.30.63392.2024052400455945348426346.DCM",
-            ]
-            let listOfDicoms = []
-            array.forEach(item => listOfDicoms.push("Content/Img/series/SR004/" + item))
-            //console.log(listOfDicoms);
-            params["images"] = [listOfDicoms];
-            //papaya.Container.addViewer("papayaContainer", params);
-            papaya.Container.addViewer("papayaContainer" , params);
-        });
+            tests[tests.length] = params;
+            return params;
+        }
+        var params;
+        params = initTest();
+        params["images"] = [[...series]];
+        console.log(params)
+         params["kioskMode"] = true;
+        params["fullScreen"] = true;
+        params["fullScreenPadding"] = false;
+        params["showControls"] = false;
+        papaya.Container.addViewer("papaya", params);
+        //papaya.Container.addViewer("papaya");
+        //}
     </script>
 </body>
 </html>
