@@ -32,7 +32,7 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <iframe src="/Home" style="width:100%;height:540px" title="Iframe Example"></iframe>
+                    <iframe class="iframe-mpr" src="/Serie" style="width:100%;height:540px" title="Iframe Example"></iframe>
                 </div>
             </div>
         </div>
@@ -341,7 +341,7 @@
         let path1 = document.getElementById("item1").src
         let path2
         path1 = path1.replace(".jpg", "/").replace("/tmb", "")
-        cornerstoneTools.init({ globalToolSyncEnabled: true })
+        cornerstoneTools.init({ globalToolSyncEnabled: true , showSVGCursors : true})
 
         //test
         let synchronizer = new cornerstoneTools.Synchronizer(
@@ -387,7 +387,6 @@
             return cornerstone.loadImage(imageIds[0]).then(image => {
                 // display this image
                 cornerstone.displayImage(element, image);
-
                 // set the stack as tool state
                 cornerstoneTools.addStackStateManager(element, ['stack', toolName]);
                 cornerstoneTools.addToolState(element, 'stack', stack);
@@ -421,6 +420,83 @@
             });
         }
 
+        // Add event handlers to flip or rotate the image
+        let selectedElm = element1
+        document.getElementById('pan').addEventListener('click', function (e) {
+            this.classList.toggle("active")
+            if (this.classList.contains('active')) {
+                const PanTool = cornerstoneTools.PanTool;
+                cornerstoneTools.addTool(PanTool)
+                cornerstoneTools.setToolActive('Pan', { mouseButtonMask: 1 })
+            } else {
+                cornerstoneTools.setToolDisabled('Pan')
+                cornerstoneTools.setToolActive('StackScroll', { mouseButtonMask: 1 });
+            }
+        });
+        document.getElementById('invert').addEventListener('click', function (e) {
+            this.classList.toggle("active")
+            const viewport = cornerstone.getViewport(selectedElm);
+            viewport.invert = !viewport.invert;
+            cornerstone.setViewport(selectedElm, viewport);
+        });
+        document.getElementById('hFlip').addEventListener('click', function (e) {
+            this.classList.toggle("active")
+            const viewport = cornerstone.getViewport(selectedElm);
+            viewport.hflip = !viewport.hflip;
+            cornerstone.setViewport(selectedElm, viewport);
+        });
+
+        document.getElementById('vFlip').addEventListener('click', function (e) {
+            this.classList.toggle("active")
+            const viewport = cornerstone.getViewport(selectedElm);
+            viewport.vflip = !viewport.vflip;
+            cornerstone.setViewport(selectedElm, viewport);
+        });
+
+        document.getElementById('lRotate').addEventListener('click', function (e) {
+            const viewport = cornerstone.getViewport(selectedElm);
+            viewport.rotation -= 90;
+            cornerstone.setViewport(selectedElm, viewport);
+        });
+
+        document.getElementById('rRotate').addEventListener('click', function (e) {
+            const viewport = cornerstone.getViewport(selectedElm);
+            viewport.rotation += 90;
+            cornerstone.setViewport(selectedElm, viewport);
+        });
+        // Add event handlers to zoom the image in and out
+        document.getElementById('zoom').addEventListener('click', function (e) {
+            this.classList.toggle("active")
+            this.classList.toggle('is-active')
+            const ZoomMouseWheelTool = cornerstoneTools.ZoomTool;
+            if (this.classList.contains('is-active')) {
+                cornerstoneTools.addTool(ZoomMouseWheelTool)
+                cornerstoneTools.setToolActive('Zoom', { mouseButtonMask: 1 })
+            } else {
+                cornerstoneTools.setToolDisabled('Zoom')
+                cornerstoneTools.setToolActive('StackScroll', { mouseButtonMask: 1 });
+            }
+            //const viewport = cornerstone.getViewport(element1);
+            //viewport.scale += 0.25;
+            //cornerstone.setViewport(element1, viewport);
+        });
+        document.getElementById('wwwc').addEventListener('click', function (e) {
+            this.classList.toggle("active")
+            this.classList.toggle('is-active')
+            const WwwcTool = cornerstoneTools.WwwcTool;
+            if (this.classList.contains('is-active')) {
+                cornerstoneTools.addTool(WwwcTool)
+                cornerstoneTools.setToolActive('Wwwc', { mouseButtonMask: 1 })
+            } else {
+                cornerstoneTools.setToolDisabled('Wwwc')
+                cornerstoneTools.setToolActive('StackScroll', { mouseButtonMask: 1 });
+            }
+        });
+
+
+        document.getElementById('reset').addEventListener('click', function (e) {
+            cornerstone.reset(selectedElm);
+        });
 
         cornerstone.events.addEventListener('cornerstoneimageloadprogress', function (event) {
             const eventData = event.detail;
@@ -441,6 +517,7 @@
                 })
                 elements.forEach(item => item.classList.remove("active"))
                 elem.classList.add("active")
+                selectedElm = elem
                 elements.forEach(item => synchronizer.removeSource(item))
                 synchronizer.addSource(elem)
             })
@@ -460,6 +537,7 @@
                 })
                 elements.forEach(item => item.classList.remove("active"))
                 elem.classList.add("active")
+                selectedElm = elem
                 elements.forEach(item => synchronizer.removeSource(item))
                 synchronizer.addSource(elem)
             })
@@ -565,6 +643,13 @@
                     link.click();
                 }
             })
+        })
+
+        //MPR on Click
+        $("#mpr").on("click", function () {
+            let activeFolder = $(".dicom-container .active").attr("data-folder")
+            $(".iframe-mpr").prop("src" , `/Serie/${activeFolder}`)
+
         })
 
 

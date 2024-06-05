@@ -12,16 +12,16 @@
     <script src="~/Scripts/papaya@1449.js"></script>
 
 </head>
-<body style="width:fit-content">
-    <div class="papaya-container" style="width:700px ; height : auto" data-serie="@ViewBag.Serie">
+<body style="width:fit-content;margin: auto">
+    <div class="papaya-container" style="width:700px ; height : auto" data-serie="@ViewBag.Serie" data-list="@ViewBag.List">
         <div id="papaya" data-params="params"></div>
     </div>
     <script>
         //var list = $("#datalist").data('listdicom');
         //const series = list.split(',');
         //document.addEventListener('DOMContentLoaded', function () {
-        let array = JSON.parse(document.querySelector(".papaya-container").dataset.serie)
-        console.log(array)
+        let array = JSON.parse(document.querySelector(".papaya-container").dataset.list)
+        let serie = document.querySelector(".papaya-container").dataset.serie
         //array = [
         //    "1.3.12.2.1107.5.2.30.63392.2024052400455939207426333.DCM",
         //    "1.3.12.2.1107.5.2.30.63392.2024052400455939335526338.DCM",
@@ -34,7 +34,7 @@
         //    "1.3.12.2.1107.5.2.30.63392.2024052400455950115226346.DCM",
         //]
         let series = []
-        array.forEach(item => series.push("/Content/Img/series/SR0031/" + item))
+        array.forEach(item => series.push("/Content/Img/series/" + serie + "/" + item))
 
         var tests = [];
         function initTest() {
