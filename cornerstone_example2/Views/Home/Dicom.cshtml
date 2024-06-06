@@ -26,13 +26,13 @@
 <body>
     <!-- Modal -->
     <div class="modal fade" id="MprModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content" style="background-color: #0e151a;">
-                <div class="modal-header">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content" style="background-color: #0e151a;border:1px solid #616161">
+                <div class="modal-header border-0">
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <iframe class="iframe-mpr" src="/Serie" style="width:100%;height:540px" title="Iframe Example"></iframe>
+                    <iframe class="iframe-mpr" src="/Serie" style="width:100%;height:730px" title="Iframe Example"></iframe>
                 </div>
             </div>
         </div>
@@ -163,6 +163,18 @@
             </div>
             <div class="tumbnail-item">
                 <img class="tumbnail-image" draggable="true" src="~/Content/Img/series/tmb/SR006.jpg" />
+                <p class="tumbnail-serie"></p>
+            </div>
+            <div class="tumbnail-item">
+                <img class="tumbnail-image" draggable="true" src="~/Content/Img/series/tmb/SR0031.jpg" />
+                <p class="tumbnail-serie"></p>
+            </div>
+            <div class="tumbnail-item">
+                <img class="tumbnail-image" draggable="true" src="~/Content/Img/series/tmb/SR350.jpg" />
+                <p class="tumbnail-serie"></p>
+            </div>
+            <div class="tumbnail-item">
+                <img class="tumbnail-image" draggable="true" src="~/Content/Img/series/tmb/SR351.jpg" />
                 <p class="tumbnail-serie"></p>
             </div>
         </div>
@@ -341,7 +353,7 @@
         let path1 = document.getElementById("item1").src
         let path2
         path1 = path1.replace(".jpg", "/").replace("/tmb", "")
-        cornerstoneTools.init({ globalToolSyncEnabled: true , showSVGCursors : true})
+        cornerstoneTools.init({ globalToolSyncEnabled: true, showSVGCursors: true })
 
         //test
         let synchronizer = new cornerstoneTools.Synchronizer(
@@ -375,6 +387,10 @@
         cornerstoneTools.addTool(cornerstoneTools.StackScrollMouseWheelTool);
         cornerstoneTools.setToolActive('StackScroll', { mouseButtonMask: 1 });
         cornerstoneTools.setToolActive('StackScrollMouseWheel', {});
+        cornerstoneTools.addTool(cornerstoneTools.ScaleOverlayTool)
+        cornerstoneTools.setToolActive('ScaleOverlay', { mouseButtonMask: 1 })
+        cornerstoneTools.addTool(cornerstoneTools.OrientationMarkersTool)
+        cornerstoneTools.setToolActive('OrientationMarkers', { mouseButtonMask: 1 })
 
         loadSeries(cornerstone, imageIdsStack, element1, firstStack);
         cornerstone.enable(element1);
@@ -387,6 +403,7 @@
             return cornerstone.loadImage(imageIds[0]).then(image => {
                 // display this image
                 cornerstone.displayImage(element, image);
+                cornerstone.reset(element)
                 // set the stack as tool state
                 cornerstoneTools.addStackStateManager(element, ['stack', toolName]);
                 cornerstoneTools.addToolState(element, 'stack', stack);
@@ -400,6 +417,7 @@
                     element.querySelector('.WL').textContent = Math.round(eventData.viewport.voi.windowCenter);
                     element.querySelector('.Scale').textContent = + eventData.viewport.scale.toFixed(2);
                     element.querySelector(".FrameNum").textContent = `${imageIds.indexOf(eventData.image.imageId) + 1} / ${imageIds.length}`
+
                 }
 
                 element.addEventListener('cornerstoneimagerendered', onImageRendered);
@@ -547,60 +565,12 @@
     <script>
         $(document).ready(function () {
             $(".tumbnail-image").on("click", function () {
-                let activeDicom = $(".dicom-container .active")
                 if ($(this).parent().is(".active")) return
                 $(".tumbnail-item").removeClass("active")
                 $(this).parent().addClass("active")
                 let imageSrc = $(this).prop("src")
-                let path = imageSrc.replace(".jpg", "/").replace("/tmb", "")
-                let folderOfDicom = imageSrc.replace(".jpg", "")
-                folderOfDicom = folderOfDicom.split("/").pop()
-                let existFile = FileArray.find(file => file.name === folderOfDicom) ?? null
-                if (existFile != null) {
-                    activeDicom.attr("data-folder", folderOfDicom)
-                    let FileOfStack = existFile.list
-                    let imageIdsStack = []
-                    for (let i = 0; i < FileOfStack.length; i++) {
-                        imageIdsStack.push('wadouri:' + path + FileOfStack[i]);
-                    }
-                    let currentStack = {
-                        currentImageIdIndex: 0,
-                        imageIds: imageIdsStack
-                    }
-                    loadSeries(cornerstone, imageIdsStack, activeDicom[0], currentStack);
-                } else {
-                    $.ajax({
-                        method: "POST",
-                        url: "@Url.Action("Dicom")",
-                        data: {
-                            folderOfDicom : folderOfDicom
-                        },
-                        success: function (response) {
-                            if (response.successMsg) {
-                                activeDicom.attr("data-folder", folderOfDicom)
-                                let FileOfStack = JSON.parse(response.successMsg)
-                                let fileDetail = {
-                                    name: folderOfDicom,
-                                    list: FileOfStack
-                                }
-                                addUniqueFile(fileDetail)
-                                let imageIdsStack = []
-                                for (let i = 0; i < FileOfStack.length; i++) {
-                                    imageIdsStack.push('wadouri:' + path + FileOfStack[i]);
-                                }
-                                let currentStack = {
-                                    currentImageIdIndex: 0,
-                                    imageIds: imageIdsStack
-                                }
-                                loadSeries(cornerstone, imageIdsStack, activeDicom[0], currentStack);
-                            } else {
-                                alert(response.errorMsg)
-                            }
-                        }
-                    })
-                }
+                getDataFromAction(imageSrc)
             })
-
 
              $("#multiSeries").on("click", function () {
                 $(this).toggleClass("active")
@@ -685,6 +655,86 @@
             $('.layout-selector-table td').removeClass('hovered');
         }
         )
+
+
+
+        //dragable images to view
+        $(".tumbnail-image").on("dragstart", function (event) {
+            event.originalEvent.stopPropagation()
+            event.originalEvent.dataTransfer.setData("text", event.target.src)
+        })
+        $(".dicom-frame").on("dragover", function (event) {
+            event.originalEvent.stopPropagation()
+            event.originalEvent.preventDefault()
+        })
+        $(".dicom-frame").on("drop", function (event) {
+            event.originalEvent.stopPropagation()
+            $(".dicom-frame").removeClass("active")
+            $(this).addClass("active")
+            let data = event.originalEvent.dataTransfer.getData("text")
+            getDataFromAction(data)
+            $(".tumbnail-item").each(function () {
+                $(this).removeClass("active")
+                if ($(this).children().first().prop("src") == data) {
+                    $(this).addClass("active")
+                }
+            })
+        })
+
+
+        //getting data of dicom tumbnail from action controller
+        function getDataFromAction(imageSrc) {
+             let activeDicom = $(".dicom-container .active")
+             let path = imageSrc.replace(".jpg", "/").replace("/tmb", "")
+             let folderOfDicom = imageSrc.replace(".jpg", "")
+             folderOfDicom = folderOfDicom.split("/").pop()
+             let existFile = FileArray.find(file => file.name === folderOfDicom) ?? null
+             if (existFile != null) {
+                 activeDicom.attr("data-folder", folderOfDicom)
+                 let FileOfStack = existFile.list
+                 let imageIdsStack = []
+                 for (let i = 0; i < FileOfStack.length; i++) {
+                     imageIdsStack.push('wadouri:' + path + FileOfStack[i]);
+                 }
+                 let currentStack = {
+                     currentImageIdIndex: 0,
+                     imageIds: imageIdsStack
+                 }
+                 loadSeries(cornerstone, imageIdsStack, activeDicom[0], currentStack);
+
+             } else {
+                 $.ajax({
+                     method: "POST",
+                     url: "@Url.Action("Dicom")",
+                     data: {
+                         folderOfDicom : folderOfDicom
+                     },
+                     success: function (response) {
+                         if (response.successMsg) {
+                             activeDicom.attr("data-folder", folderOfDicom)
+                             let FileOfStack = JSON.parse(response.successMsg)
+                             let fileDetail = {
+                                 name: folderOfDicom,
+                                 list: FileOfStack
+                             }
+                             addUniqueFile(fileDetail)
+                             let imageIdsStack = []
+                             for (let i = 0; i < FileOfStack.length; i++) {
+                                 imageIdsStack.push('wadouri:' + path + FileOfStack[i]);
+                             }
+                             let currentStack = {
+                                 currentImageIdIndex: 0,
+                                 imageIds: imageIdsStack
+                             }
+                             loadSeries(cornerstone, imageIdsStack, activeDicom[0], currentStack);
+                         } else {
+                             alert(response.errorMsg)
+                         }
+                     }
+                 })
+             }
+        }
+
         //for dividing screen to what we want
         function splitScreen(row, col) {
             //test
@@ -698,7 +748,6 @@
             for (let cell = 1; cell <= dicomFrameCount; cell++) {
                 $(`#dicomImage${cell}`).css("display", "flex")
                 cornerstone.resize(element1)
-                //if (dicomFrameCount <= 4) {
                     let imageSrc = $(`.tumbnail-item:nth-of-type(${cell})`).find("img").prop("src")
                     let path = imageSrc.replace(".jpg", "/").replace("/tmb", "")
                     console.log(imageSrc)
@@ -738,12 +787,8 @@
                             }
                         }
                     })
-                //}
 
             }
-            ////test
-            //elements.forEach(item => synchronizer.removeSource(item))
-            //synchronizer.addSource(".dicom-container .active")
         }
 
         function addUniqueFile(newobj) {

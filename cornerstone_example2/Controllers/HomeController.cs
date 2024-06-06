@@ -23,7 +23,7 @@ namespace cornerstone_example2.Controllers
                 activeMpr = "SR0031";
             }
             imageFolder = Path.Combine(imageFolder, activeMpr);
-            var Images = Directory.GetFiles(imageFolder, "*.DCM").Select(Path.GetFileName).OrderBy(name => name).ToList();
+            var Images = Directory.GetFiles(imageFolder, "*.DCM").Select(Path.GetFileName).OrderBy(ExtractNumericPart).ToList();
             string jsonImages = JsonConvert.SerializeObject(Images);
             ViewBag.List = jsonImages;
             ViewBag.Serie = activeMpr;
@@ -41,7 +41,7 @@ namespace cornerstone_example2.Controllers
 
             var basePath = AppDomain.CurrentDomain.BaseDirectory;
             var imageFolder = Path.Combine(basePath, "Content", "Img", "series", "SR001");
-            var Images = Directory.GetFiles(imageFolder, "*.DCM").Select(Path.GetFileName).OrderBy(name => name).ToList();
+            var Images = Directory.GetFiles(imageFolder, "*.DCM").Select(Path.GetFileName).OrderBy(ExtractNumericPart).ToList();
             string jsonImages = JsonConvert.SerializeObject(Images);
             ViewBag.Files = jsonImages;
             ViewBag.BaseUrl = baseUrl;
@@ -54,7 +54,7 @@ namespace cornerstone_example2.Controllers
             var imageFolder = Path.Combine(basePath, "Content", "Img", "series", folderOfDicom);
             if (Directory.Exists(imageFolder))
             {
-                var Images = Directory.GetFiles(imageFolder, "*.DCM").Select(Path.GetFileName).OrderBy(name => name).ToList();
+                var Images = Directory.GetFiles(imageFolder, "*.DCM").Select(Path.GetFileName).OrderBy(ExtractNumericPart).ToList();
                 string jsonImages = JsonConvert.SerializeObject(Images);
                 return Json(new { successMsg = jsonImages });
             }
@@ -85,6 +85,19 @@ namespace cornerstone_example2.Controllers
             {
                 return HttpNotFound("folder not found");
             }
+        }
+
+        private static long ExtractNumericPart(string filename)
+        {
+            // Extract the numeric part before .DCM
+            var parts = filename.Split('.');
+            string numericString = parts[parts.Length - 2];
+
+            // Get the last 8 digits
+            string last8Digits = numericString.Length > 16 ? numericString.Substring(numericString.Length - 16) : numericString;
+
+            // Convert to long for sorting
+            return long.Parse(last8Digits);
         }
 
     }
