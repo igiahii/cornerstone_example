@@ -216,9 +216,9 @@
                         </span>
                         <span class="fw-bold ImageType" id=""></span>
                     </div>
-                    @*<div class="right-details">
+                    <div class="right-details">
                             <input class="range-slider" type="range" min="0" max="100" value="0" />
-                        </div>*@
+                        </div>
                     <div class="bottom-right-details text-white">
                         <span>
                             <span class="fw-bold InstitutionName" id=""></span>
@@ -264,9 +264,9 @@
                             </span>
                             <span class="fw-bold ImageType" id=""></span>
                         </div>
-                        @*<div class="right-details">
+                        <div class="right-details">
                                 <input class="range-slider" type="range" min="0" max="100" value="0" />
-                            </div>*@
+                            </div>
                         <div class="bottom-right-details text-white">
                             <span>
                                 <span class="fw-bold InstitutionName" id=""></span>
@@ -342,20 +342,16 @@
             list: Files1
         }
         FileArray.push(FileObject1)
-        let Files2 = []
         let elements = []
         for (let i = 1; i <= 16; i++) {
             elements.push(document.getElementById(`dicomImage${i}`))
         }
         let element1 = elements[0]
-        let element2 = elements[1]
 
         let path1 = document.getElementById("item1").src
-        let path2
         path1 = path1.replace(".jpg", "/").replace("/tmb", "")
         cornerstoneTools.init({ globalToolSyncEnabled: true, showSVGCursors: true })
 
-        //test
         let synchronizer = new cornerstoneTools.Synchronizer(
             'cornerstonenewimage',
             cornerstoneTools.updateImageSynchronizer
@@ -367,7 +363,6 @@
 
         const toolName = 'StackScrollMouseWheel';
         let imageIdsStack = [];
-        let imageIdsStack2 = [];
 
         for (let i = 0; i < Files1.length; i++) {
             imageIdsStack.push('wadouri:' + path1 + Files1[i]);
@@ -377,10 +372,7 @@
             currentImageIdIndex: 0,
             imageIds: imageIdsStack,
         };
-        let secondStack = {
-            currentImageIdIndex: 0,
-            imageIds: []
-        }
+
 
         // Add and activate tools
         cornerstoneTools.addTool(cornerstoneTools.StackScrollTool);
@@ -417,7 +409,17 @@
                     element.querySelector('.WL').textContent = Math.round(eventData.viewport.voi.windowCenter);
                     element.querySelector('.Scale').textContent = + eventData.viewport.scale.toFixed(2);
                     element.querySelector(".FrameNum").textContent = `${imageIds.indexOf(eventData.image.imageId) + 1} / ${imageIds.length}`
-
+                    let rangeSlider = element.querySelector(".range-slider")
+                    let step = imageIds.length - 1
+                    let value = imageIds.indexOf(eventData.image.imageId)
+                    rangeSlider.step = 100 / step
+                    rangeSlider.value = value * rangeSlider.step
+                    if (value == 0) {
+                        rangeSlider.value = 0
+                    }
+                    if (value + 1 == imageIds.length) {
+                        rangeSlider.value = 100
+                    }
                 }
 
                 element.addEventListener('cornerstoneimagerendered', onImageRendered);
@@ -538,6 +540,7 @@
                 selectedElm = elem
                 elements.forEach(item => synchronizer.removeSource(item))
                 synchronizer.addSource(elem)
+             
             })
         })
 
@@ -778,10 +781,26 @@
                                 }
                                 loadSeries(cornerstone, imageIdsStack, elements[cell-1], currentStack);
                                 cornerstone.enable(elements[cell - 1])
-                                //test
                                 synchronizer.add(elements[cell - 1])
                                 cornerstone.resize(elements[cell - 1])
-                                    synchronizer.removeSource(elements[cell - 1])
+                                synchronizer.removeSource(elements[cell - 1])
+                                //test
+                                let height = $(".dicom-frame").height();
+                                $(".range-slider").width(height / 2)
+                                switch ($(".cornerstone-canvas").width()) {
+                                    case 863:
+                                        $(".right-details").css("right" , "43px")
+                                        break;
+                                    case 574:
+                                        $(".right-details").css("right", "29px")
+                                        break;
+                                    case 430:
+                                        $(".right-details").css("right", "22px")
+                                        break;
+                                    default:
+                                        $(".right-details").css("right", "50px")
+                                        break;
+                                }
                             } else {
                                 alert(response.errorMsg)
                             }
