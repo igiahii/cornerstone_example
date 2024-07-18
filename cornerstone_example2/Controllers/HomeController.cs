@@ -20,7 +20,8 @@ namespace cornerstone_example2.Controllers
             var imageFolder = Path.Combine(basePath, "Content", "Img", "series");
             if (string.IsNullOrEmpty(activeMpr))
             {
-                activeMpr = "SR0031";
+                //activeMpr = "SR0031";
+                activeMpr = "SR001";
             }
             imageFolder = Path.Combine(imageFolder, activeMpr);
             var Images = Directory.GetFiles(imageFolder, "*.DCM").Select(Path.GetFileName).OrderBy(ExtractNumericPart).ToList();

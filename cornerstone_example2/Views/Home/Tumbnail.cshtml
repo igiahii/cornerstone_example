@@ -13,7 +13,9 @@
     <link rel="stylesheet" href="~/Content/Css/Tumbnail.css" />
     <script src="~/Scripts/cornerstone-prev.js"></script>
     <script src="~/Scripts/cornerstone-math.js"></script>
-    <script src="~/Scripts/cornerstone-tools.js"></script>
+    <script src="~/Scripts/hammerjs@2.0.8.js"></script>
+    @*<script src="~/Scripts/cornerstone-tools@6.0.6.js"></script>*@
+    <script src="~/Scripts/cornerstone-tools@6.0.6.min.js"></script>
     <script src="~/Scripts/dicom-parser.js"></script>
     <script src="~/Scripts/web-image-loader.js"></script>
 </head>
@@ -34,12 +36,7 @@
             </a>
         </div>
         <div class="toolbar-button-group">
-            <div class="col-xs-2">
-                <label style="color:#fff" for="colormaps"> Colormap </label>
-                <select id="colormaps" style="width:100%">
-                    <option value="">Select...</option>
-                </select>
-            </div>
+            <button id="length" type="button" class="btn btn-secondary mx-2">Length</button>
             <button id="invert" type="button" class="btn btn-secondary mx-2">Invert</button>
             <button id="hFlip" type="button" class="btn btn-secondary mx-2">HFlip</button>
             <button id="vFlip" type="button" class="btn btn-secondary mx-2">VFlip</button>
@@ -49,19 +46,15 @@
             <button id="rRotate" type="button" class="btn btn-secondary mx-2">Rotate Right</button>
             <button id="reset" type="button" class="btn btn-secondary mx-2">Reset</button>
         </div>
-        <div style="width:700px;height:700px;position:relative;color: white;display:inline-block;"
-             oncontextmenu="return false"
-             class='disable-selection noIbar'
-             unselectable='on'
-             onselectstart='return false;'
-             onmousedown='return false;'>
-            <div id="dicomImage"
-                 style="width:700px;height:700px;top:0px;left:0px; position:absolute">
+        <div style="width:700px;height:700px;position:relative;color: white;display:inline-block;">
+            <div id="dicomImage" style="width:700px;height:700px;">
             </div>
         </div>
     </div>
     <script>
         cornerstoneWebImageLoader.external.cornerstone = cornerstone;
+        cornerstoneTools.external.cornerstone = cornerstone;
+        cornerstoneTools.external.Hammer = Hammer
         //cornerstoneWebImageLoader.configure({
         //    beforeSend: function (xhr) {
         //        // Add custom headers here (e.g. auth tokens)
@@ -69,37 +62,42 @@
         //    }
         //});
         // Populate colormap dropdown with all the default ones available
-        function fillColormapsList() {
-            const dropdown = document.getElementById('colormaps');
-            const colormapsList = cornerstone.colors.getColormapsList();
-
-            const addOption = function (id, name, disabled) {
-                const option = document.createElement("OPTION");
-                option.value = id;
-                option.textContent = name;
-                option.disabled = !!disabled;
-                dropdown.append(option);
-            };
-
-            colormapsList.forEach(function (colormapItem) {
-                addOption(colormapItem.id, colormapItem.name);
-            });
-
-        }
 
         const element = document.getElementById('dicomImage');
         let clickTags = document.getElementsByClassName('downloadAndView')
 
+        cornerstoneTools.init({ showSVGCursors: true })
+        //cornerstone tools style
+        cornerstoneTools.toolColors.setToolColor('#FFA500');
+        cornerstoneTools.toolColors.setActiveColor('#FF0000');
+        
         for (let i = 0; i < clickTags.length; i++) {
             clickTags[i].addEventListener('click', function (e) {
                 let url = e.currentTarget.querySelector(".mini-image").src
-                console.log(url)
                 // image enable the dicomImage element and activate a few tools
                 cornerstone.enable(element);
                 cornerstone.loadImage(url).then(function (image) {
+                    image.columnPixelSpacing = 0.7
+                    image.rowPixelSpacing = 0.7
                     cornerstone.displayImage(element, image);
-                    cornerstoneTools.mouseInput.enable(element);
-                    cornerstoneTools.mouseWheelInput.enable(element);
+                    cornerstoneTools.addTool(cornerstoneTools.PanTool)
+                    cornerstoneTools.setToolActive('Pan', { mouseButtonMask: 1 })
+
+                    function onImageRendered(e) {
+                        let eventData = e.detail;
+                        console.log(eventData)
+                        //console.log(eventData.enabledElement.toolStateManager)
+                        //console.log(eventData.enabledElement.toolStateManager.get(element, 'Length').data[0])
+                        //let data = eventData.enabledElement.toolStateManager.get(element, 'Length').data
+                        //eventData.enabledElement.toolStateManager.set(element, 'Length' , data)
+                    }
+
+
+                    /*                    element.addEventListener('cornerstoneimageloaded', onImageLoaded);*/
+                    element.addEventListener('cornerstoneimagerendered', onImageRendered);
+
+                    //cornerstoneTools.mouseInput.enable(element);
+                    //cornerstoneTools.mouseWheelInput.enable(element);
                     //cornerstoneTools.wwwc.activate(element, 1); // ww/wc is the default tool for left mouse button
                     //cornerstoneTools.pan.activate(element, 2); // pan is the default tool for middle mouse button
                     //cornerstoneTools.zoom.activate(element, 4); // zoom is the default tool for right mouse button
@@ -145,6 +143,7 @@
                 });
             })
         }
+
         // Add event handlers to flip or rotate the image
         document.getElementById('hFlip').addEventListener('click', function (e) {
             const viewport = cornerstone.getViewport(element);
@@ -155,6 +154,11 @@
         document.getElementById('vFlip').addEventListener('click', function (e) {
             const viewport = cornerstone.getViewport(element);
             viewport.vflip = !viewport.vflip;
+            //const colormapsList = cornerstone.colors.getColormapsList()
+            //let colorMap = cornerstone.colors.getColormap('blues')
+            //console.log(colorMap)
+            //console.log(viewport)
+            //viewport.colormap = colorMap
             cornerstone.setViewport(element, viewport);
         });
 
@@ -176,63 +180,73 @@
         });
 
         // Add event handlers to zoom the image in and out
+        //document.getElementById('zoom').addEventListener('click', function (e) {
+        //    this.classList.toggle('is-active')
+        //    if (this.classList.contains('is-active')) {
+        //        cornerstoneTools.zoom.activate(element, 1); // zoom is the default tool for right mouse button
+        //        cornerstoneTools.zoomWheel.activate(element); // zoom is the default tool for middle mouse wheel
+        //    } else {
+        //        cornerstoneTools.zoom.deactivate(element, 1); // zoom is the default tool for right mouse button
+        //        cornerstoneTools.zoomWheel.deactivate(element); // zoom is the default tool for middle mouse wheel
+        //        console.log("is not active yet")
+        //    }
+        //    //const viewport = cornerstone.getViewport(element);
+        //    //viewport.scale += 0.25;
+        //    //cornerstone.setViewport(element, viewport);
+        //});
+
+        //edited
         document.getElementById('zoom').addEventListener('click', function (e) {
+            //this.classList.toggle("active")
             this.classList.toggle('is-active')
+            const ZoomMouseWheelTool = cornerstoneTools.ZoomTool;
             if (this.classList.contains('is-active')) {
-                cornerstoneTools.zoom.activate(element, 1); // zoom is the default tool for right mouse button
-                cornerstoneTools.zoomWheel.activate(element); // zoom is the default tool for middle mouse wheel
+                cornerstoneTools.addTool(ZoomMouseWheelTool)
+                cornerstoneTools.setToolActive('Zoom', { mouseButtonMask: 1 })
             } else {
-                cornerstoneTools.zoom.deactivate(element, 1); // zoom is the default tool for right mouse button
-                cornerstoneTools.zoomWheel.deactivate(element); // zoom is the default tool for middle mouse wheel
-                console.log("is not active yet")
+                cornerstoneTools.setToolDisabled('Zoom')
+                cornerstoneTools.setToolActive('Pan', { mouseButtonMask: 1 })
             }
-            //const viewport = cornerstone.getViewport(element);
+            //const viewport = cornerstone.getViewport(element1);
             //viewport.scale += 0.25;
-            //cornerstone.setViewport(element, viewport);
+            //cornerstone.setViewport(element1, viewport);
         });
+
         document.getElementById('wwwc').addEventListener('click', function (e) {
             this.classList.toggle('is-active')
             if (this.classList.contains('is-active')) {
-                cornerstoneTools.wwwc.activate(element, 1); // ww/wc is the default tool for left mouse button
+                cornerstoneTools.addTool(cornerstoneTools.WwwcTool)
+                cornerstoneTools.setToolActive('Wwwc', { mouseButtonMask: 1 })
             } else {
-                cornerstoneTools.wwwc.deactivate(element, 1); // ww/wc is the default tool for left mouse button
+                cornerstoneTools.setToolDisabled('Wwwc')
+                cornerstoneTools.setToolActive('Pan', { mouseButtonMask: 1 })
             }
         });
+        document.getElementById('length').addEventListener('click', function (e) {
+            this.classList.toggle('is-active')
+            if (this.classList.contains('is-active')) {
+                cornerstoneTools.addTool(cornerstoneTools.LengthTool)
+                cornerstoneTools.setToolActive('Length', { mouseButtonMask: 1 })
+            } else {
+                cornerstoneTools.setToolDisabled('Length')
+                cornerstoneTools.setToolActive('Pan', { mouseButtonMask: 1 })
+            }
+        });
+        //document.getElementById('wwwc').addEventListener('click', function (e) {
+        //    this.classList.toggle('is-active')
+        //    if (this.classList.contains('is-active')) {
+        //        cornerstoneTools.wwwc.activate(element, 1); // ww/wc is the default tool for left mouse button
+        //    } else {
+        //        cornerstoneTools.wwwc.deactivate(element, 1); // ww/wc is the default tool for left mouse button
+        //    }
+        //});
 
 
         document.getElementById('reset').addEventListener('click', function (e) {
             cornerstone.reset(element);
         });
 
-        //color mapping -------------------------------------------------------------------------------------
-       
-      
-        // Dropdown listener to get the new colormap
-        // selected by the user and update the image
-        function colormapChanged() {
-            const viewport = cornerstone.getViewport(element);
-            const colormapId = document.getElementById('colormaps').value;
-            let colormap;
 
-            // Use selected the first option ("Select...")
-            if (colormapId === '') {
-                return;
-            } else {
-                colormap = cornerstone.colors.getColormap(colormapId);
-            }
-
-            viewport.colormap = colormap;
-            cornerstone.setViewport(element, viewport);
-            cornerstone.updateImage(element, true);
-        }
-
-        document.getElementById('colormaps').addEventListener('change', colormapChanged);
-
-        fillColormapsList();
-
-
-        //color mapping -------------------------------------------------------------------------------------
-       
     </script>
 </body>
 </html>

@@ -13278,6 +13278,7 @@
                  */
 
                 function setColorLUT(colorLUTIndex) {
+
                     var colorLUT = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
                     var _getModule = Object(_index_js__WEBPACK_IMPORTED_MODULE_3__["getModule"])('segmentation'),
@@ -13842,6 +13843,8 @@
                  */
 
                 function getLabelmapBuffers(elementOrEnabledElementUID, labelmapIndex) {
+                    //edited
+                    alert("")
                     var element = Object(_getElement__WEBPACK_IMPORTED_MODULE_0__["default"])(elementOrEnabledElementUID);
 
                     if (!element) {
